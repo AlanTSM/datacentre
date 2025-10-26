@@ -1,0 +1,2502 @@
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Analizador de estadísticas</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" /><style>:root{--primary-color:#1a237e;--secondary-color:#283593;--background-color:#f5f5f5;--card-background:#ffffff;--text-color:#333333;--alternate-row:#f8f9fa;--clear-button:#dc3545;--analyze-button:#28a745;--download-button:#007bff;--compare-button:#ffc107;--dark-background:#1a1a1a;--dark-card:#2c2c2c;--dark-text:#e0e0e0;--dark-alternate:#353535;--dark-primary:#3f51b5;--dark-secondary:#5c6bc0;--dark-compare:#ffa000;--accent-color:#FF5722;--gradient-start:#1a237e;--gradient-end:#0d47a1;--header-shadow:rgba(0, 0, 0, 0.2);--border-light:rgba(255, 255, 255, 0.2)}[data-theme=dark]{--background-color:var(--dark-background);--card-background:var(--dark-card);--text-color:var(--dark-text);--alternate-row:var(--dark-alternate);--primary-color:var(--dark-primary);--secondary-color:var(--dark-secondary);--compare-button:var(--dark-compare);--gradient-start:#283593;--gradient-end:#1a237e;--header-shadow:rgba(0, 0, 0, 0.5);--download-button:#1e90ff}[data-theme=dark] .compare-table .highlight{color:#000}*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;scroll-behavior:smooth;transition:all .3s ease}body{background-color:var(--background-color);color:var(--text-color);padding:2rem}.container{max-width:1400px;margin:0 auto}.header{background:linear-gradient(135deg,var(--gradient-start),var(--gradient-end));padding:0;border-radius:12px;margin-bottom:2rem;box-shadow:0 6px 20px var(--header-shadow);overflow:hidden;position:relative}.header-content{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;position:relative;z-index:2}.header-left{display:flex;align-items:center}.header-logo{width:48px;height:48px;background-color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:1rem;box-shadow:0 4px 8px rgba(0,0,0,.15)}.header-logo i{color:var(--primary-color);font-size:1.5rem}.header-title{display:flex;flex-direction:column}.header h1{color:#fff;font-size:1.8rem;font-weight:600;margin:0;letter-spacing:.5px;text-shadow:1px 1px 2px rgba(0,0,0,.3);cursor:pointer}.header-subtitle{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:400;margin-top:.3rem}.header-right{display:flex;align-items:center}.header-button{background:rgba(255,255,255,.15);border:1px solid var(--border-light);padding:.6rem 1.2rem;color:#fff;border-radius:30px;font-size:.9rem;display:flex;align-items:center;gap:.5rem;cursor:pointer;transition:all .3s ease;text-decoration:none;backdrop-filter:blur(5px)}.header-button:hover{background:rgba(255,255,255,.25);transform:translateY(-2px)}.header-decoration{position:absolute;height:300px;width:300px;border-radius:50%;background:rgba(255,255,255,.08);top:-200px;right:-100px;z-index:1}.header-decoration:before{content:'';position:absolute;height:200px;width:200px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-50px;left:-150px}.theme-toggle{position:fixed;top:2rem;right:2rem;background:var(--card-background);border:none;cursor:pointer;z-index:1001;font-size:1.2rem;color:var(--primary-color);transition:all .3s ease;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1)}.theme-toggle:hover{transform:rotate(180deg);box-shadow:0 4px 12px rgba(0,0,0,.15)}.input-section{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1);margin-bottom:2rem}.input-section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;position:relative}.input-section-title{color:var(--primary-color);font-size:1.2rem;font-weight:600}.toggle-input-button{background:0 0;border:none;color:var(--primary-color);font-size:1.2rem;cursor:pointer;position:absolute;right:0;top:0}.toggle-input-button.hidden{display:none}.input-content{display:block}.input-content.collapsed{display:none}.button-group{display:flex;gap:1rem;margin-bottom:1rem}textarea{width:100%;height:200px;padding:1rem;border:1px solid #ddd;border-radius:5px;margin-bottom:1rem;font-family:monospace;background-color:var(--card-background);color:var(--text-color)}button{background-color:var(--primary-color);color:#fff;border:none;padding:.8rem 1.5rem;border-radius:5px;cursor:pointer;transition:background-color .3s;display:flex;align-items:center;gap:.5rem}button:hover{background-color:var(--secondary-color)}button.clear{background-color:var(--clear-button)}button.clear:hover{background-color:#c82333}button.analyze{background-color:var(--analyze-button)}button.analyze:hover{background-color:#218838}button.download{background-color:var(--download-button)}button.download:hover{background-color:#0056b3}button.compare{background-color:var(--compare-button)}button.compare:hover{background-color:#e0a800}.file-input{display:none}.checkbox-group{display:flex;gap:1rem;margin-top:1rem;align-items:center}.checkbox-container{margin:1rem 0;display:none;align-items:center;gap:.5rem;background-color:var(--card-background);padding:.8rem;border-radius:5px;border:1px solid var(--primary-color);box-shadow:0 2px 4px rgba(0,0,0,.1)}.checkbox-container.visible{display:flex}.checkbox-container label{color:var(--primary-color);font-size:1rem;font-weight:500}.checkbox-container input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid var(--primary-color);border-radius:50%;cursor:pointer;position:relative}.checkbox-container input[type=checkbox]:checked{background-color:var(--primary-color)}.checkbox-container input[type=checkbox]:checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px}.search-container{display:none;align-items:center;gap:.5rem;position:relative}.search-container.visible{display:flex}.search-container input{padding:.8rem;border:2px solid var(--primary-color);border-radius:5px;font-size:.9rem;background-color:var(--card-background);color:var(--text-color);width:200px}.suggestions{position:absolute;top:100%;left:0;right:0;background-color:var(--card-background);border:1px solid #ddd;border-radius:5px;max-height:400px;overflow-y:auto;z-index:1000;display:none}.suggestions.visible{display:block}.suggestion-item{padding:.8rem;cursor:pointer;font-size:.9rem;color:var(--text-color)}.suggestion-item.selected,.suggestion-item:hover{background-color:var(--alternate-row)}.analyze-buttons{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem}.stat-card{background-color:var(--card-background);padding:1.5rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1)}.stat-card h3{color:var(--primary-color);margin-bottom:1rem;border-bottom:2px solid var(--primary-color);padding-bottom:.5rem;display:flex;align-items:center;gap:.5rem}.info-icon{font-size:.9rem;cursor:help}.player-stat{display:grid;grid-template-columns:30px 1fr 60px;padding:.3rem 0;border-bottom:1px solid #eee;font-size:.8rem}.player-stat:nth-child(even){background-color:var(--alternate-row)}.player-rank{font-weight:700;text-align:center;color:var(--text-color)}.player-stat-value{font-weight:700;text-align:right;color:var(--text-color)}.flag-icon{width:20px;height:15px;vertical-align:middle;margin-right:5px}.legend{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1)}.legend h3{color:var(--primary-color);margin-bottom:1rem}.legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}.legend-item{margin-bottom:.5rem;color:var(--text-color)}.legend-item strong{color:var(--primary-color)}.show-less,.show-more{color:var(--primary-color);background:0 0;border:none;padding:.5rem;margin-top:.5rem;cursor:pointer;width:100%;text-align:center;font-size:.9rem}.show-less:hover,.show-more:hover{text-decoration:underline}.button-container{display:flex;justify-content:center;gap:1rem;margin-top:1rem}.back-to-top{position:fixed;bottom:2rem;right:2rem;background-color:var(--primary-color);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .3s;z-index:1000}.back-to-top.visible{opacity:1}.hidden{display:none}.template-count{margin-bottom:1rem;color:var(--primary-color)}.popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}.popup-overlay.visible{display:flex}.popup-content{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,.2);max-width:600px;width:90%;position:relative;max-height:95vh;overflow-y:auto}.popup-close{position:absolute;top:1rem;right:1rem;background:0 0;border:none;color:var(--primary-color);font-size:1.2rem;cursor:pointer}.popup-close:hover{color:var(--secondary-color)}.compare-container{display:flex;flex-direction:row;flex-wrap:wrap;gap:1rem;margin-top:1rem}.compare-search{position:relative;flex:1;min-width:200px}.compare-search input{width:100%;padding:.8rem 1rem;border:1px solid var(--primary-color);border-radius:25px;background-color:var(--card-background);color:var(--text-color);box-shadow:0 2px 5px rgba(0,0,0,.1);transition:all .3s ease}.compare-search input:focus{outline:0;box-shadow:0 2px 5px var(--primary-color);border-color:var(--secondary-color)}.compare-table{width:100%;border-collapse:collapse;margin-top:1rem}.compare-table td,.compare-table th{padding:.5rem;text-align:left;border-bottom:1px solid #eee}.compare-table th{color:var(--primary-color);font-weight:600}.compare-table td{font-size:.9rem}.compare-table td:nth-child(2),.compare-table td:nth-child(3){text-align:center}.compare-table tr:nth-child(even){background-color:var(--alternate-row)}.compare-table .stat-name{font-weight:700}.compare-table .highlight{background-color:#ff9}.highlight-checkbox{margin:1rem 0;display:flex;align-items:center;gap:.5rem}.highlight-checkbox label{color:var(--primary-color);font-size:1rem;font-weight:500}.highlight-checkbox input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid var(--primary-color);border-radius:4px;cursor:pointer;position:relative}.highlight-checkbox input[type=checkbox]:checked{background-color:var(--primary-color)}.highlight-checkbox input[type=checkbox]:checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px}.dream-team-container{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}.dream-team-list{flex:1;min-width:300px}.dream-team-visual{flex:1;min-width:300px;display:flex;flex-direction:column;align-items:center}.field-container{width:100%;max-width:400px;height:500px;background:linear-gradient(135deg,#2e7d32 0,#1b5e20 100%);border:2px solid #1b5e20;border-radius:8px;position:relative;overflow:hidden;margin-bottom:1rem}.field-lines{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none}.field-line{position:absolute;background-color:rgba(255,255,255,.5)}.player-circle{position:absolute;width:40px;height:40px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transform:translate(-50%,-50%);z-index:10}.player-circle.gk{background:linear-gradient(145deg,#4caf50,#2e7d32)}.player-circle.df{background:linear-gradient(145deg,#2196f3,#1976d2)}.player-circle.mf{background:linear-gradient(145deg,#ffeb3b,#fbc02d)}.player-circle.fw{background:linear-gradient(145deg,#f44336,#d32f2f)}.player-name{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--text-color);white-space:nowrap;text-shadow:0 0 3px #fff;width:max-content}.formation-display{text-align:center;font-weight:700;color:var(--primary-color);margin-top:.5rem}.player-popup-content{display:flex;flex-direction:column;gap:1rem}.player-popup-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}.player-popup-name{font-size:1.5rem;font-weight:700;color:var(--primary-color)}.player-popup-info{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}.player-popup-info-item{display:flex;flex-direction:column}.player-popup-info-label{font-size:.9rem;color:var(--primary-color);font-weight:500}.player-popup-info-value{font-size:1rem}.player-popup-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.player-popup-stat{display:flex;justify-content:space-between;padding:.5rem;border-bottom:1px solid #eee}.player-popup-stat:nth-child(even){background-color:var(--alternate-row)}.player-popup-stat-name{font-weight:500}.player-popup-stat-value{font-weight:700}.player-popup-actions{display:flex;justify-content:space-between;margin-top:1rem}.player-popup-action-btn{background-color:var(--primary-color);color:#fff;border:none;padding:.5rem 1rem;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:.5rem;font-size:.9rem}.player-popup-action-btn:hover{background-color:var(--secondary-color)}.fit-bar-container{margin-top:.5rem;height:10px;background-color:#e0e0e0;border-radius:5px;overflow:hidden}.fit-bar{height:100%;border-radius:5px;transition:width .3s ease}.fit-bar.green{background-color:#4caf50}.fit-bar.yellow{background-color:#ffeb3b}.fit-bar.orange{background-color:#ff9800}.fit-bar.red{background-color:#f44336}.player-name-link{cursor:pointer;color:inherit;text-decoration:none}.player-name-link:hover{text-decoration:underline}.stars{display:inline-flex;gap:.2rem;font-size:.8rem;color:gold;margin-left:.5rem}.popup-tab{display:none}.popup-tab.active{display:block}.popup-tab-button{background:0 0;border:none;color:var(--primary-color);cursor:pointer;font-size:1rem}.popup-tab-button:hover{text-decoration:underline}.clear-search-button{background:0 0;border:none;color:var(--primary-color);cursor:pointer;font-size:1rem;padding:.5rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}.clear-search-button.visible{opacity:1}.clear-search-button:hover{color:var(--secondary-color)}.player-stat>span:nth-child(2){word-break:break-word;overflow-wrap:break-word;hyphens:auto}.centered-button{display:flex;justify-content:center;width:100%;margin-top:1rem}.centered-button button{text-align:center;display:flex;justify-content:center;align-items:center}.warning-message{text-align:center;color:var(--primary-color);font-style:italic;margin:1rem 0;padding:1rem;background-color:var(--alternate-row);border-radius:5px}.border.ml-2.p-2.rounded {background-color: var(--card-background); border: 1px solid var(--primary-color); border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s ease;} .border.ml-2.p-2.rounded:focus {outline: none; border-color: var(--secondary-color); box-shadow: 0 1px 3px var(--secondary-color);}@media (max-width:768px){.header-content{flex-direction:column;text-align:center;padding:1.2rem}.header-left{flex-direction:column;margin-bottom:1rem}.header-logo{margin-right:0;margin-bottom:.8rem}.header-right{width:100%;justify-content:center}.analyze-buttons{flex-direction:column;align-items:flex-start}.search-container{width:100%}.search-container input{width:100%}body{padding:1rem}.popup-content{width:95%}.dream-team-container{flex-direction:column}.field-container{height:400px}.player-popup-info{grid-template-columns:1fr}.player-popup-stats{grid-template-columns:1fr}}</style>
+<div class="container">
+           
+    <div class="header">
+               
+        <div class="header-content">
+                   
+            <div class="header-left">
+                       
+                <div class="header-logo">
+                        <em class="fas fa-chart-line"> </em>    
+                </div>
+                       
+                <div class="header-title">
+                           
+                    <h1 onclick="window.location.reload()">
+                            Central de datos    
+                    </h1>
+                           
+                    <div class="header-subtitle">
+                            Explora los datos de los jugadores de cualquier equipo.    
+                    </div>
+                           
+                </div>
+                       
+            </div>
+                   
+            <div class="header-right">
+                    <a target="_blank" href="https://www.tusoccermanager.com/" class="header-button"><em class="fas fa-external-link-alt"></em> Visitar TSM</a>    
+            </div>
+                   
+        </div>
+               
+        <div class="header-decoration">
+                   
+        </div>
+               
+    </div>
+           
+    <button title="Cambiar tema" class="theme-toggle" id="themeToggle">
+            <em class="fas fa-moon"> </em>    
+    </button>
+           
+    <div class="input-section">
+               
+        <div class="input-section-header">
+                   
+            <div style="display:flex;align-items:center;gap:.3rem">
+                    <span class="input-section-title">Entrada de datos</span> <span id="playerCount" style="color:var(--primary-color);font-size:1.2rem;font-weight:600">(0)</span>    
+            </div>
+                   
+            <button class="hidden toggle-input-button" id="toggleInputButton">
+                    <em class="fas fa-chevron-down"> </em>    
+            </button>
+                   
+        </div>
+               
+        <div id="inputContent" class="input-content">
+                   
+            <div class="button-group">
+                       
+                <button id="pasteButton">
+                        <em class="fas fa-paste"> </em> Pegar del portapapeles    
+                </button>
+                         
+                <button id="uploadButton">
+                        <em class="fas fa-file-upload"> </em> Cargar archivo    
+                </button>
+                     <input multiple="" class="file-input" accept=".txt" type="file" id="fileInput" />     
+                <button class="clear" id="clearButton">
+                        <em class="fas fa-trash"> </em> Eliminar entrada    
+                </button>
+                         
+                <button class="analyze" id="analyzeButton">
+                        <em class="fas fa-chart-bar"> </em> Analizar datos    
+                </button>
+                       
+            </div>
+                   
+            <div id="templateCount" class="template-count">
+                    Plantillas: 0    
+            </div><textarea placeholder="Pega aquí la plantilla o plantillas incluyendo la primera línea..." id="playerData"></textarea>    
+        </div>
+               
+        <div class="analyze-buttons">
+                   
+            <div id="searchContainer" class="search-container">
+                    <input placeholder="Buscar jugador..." id="playerSearch" />     
+                <button title="Reiniciar búsqueda" class="clear-search-button" id="clearSearchButton">
+                        <em class="fas fa-times"> </em>    
+                </button>
+                       
+                <div id="suggestions" class="suggestions">
+                           
+                </div>
+                       
+            </div>
+                   
+            <button id="bestPlayersButton">
+                    <em class="fas fa-star"> </em> Mejores por posición    
+            </button>
+                     
+            <button class="compare" id="compareButton">
+                    <em class="fas fa-balance-scale"> </em> Comparar jugadores    
+            </button>
+                     
+            <button class="download" id="downloadButton">
+                    <em class="fas fa-download"> </em> Descargar estadísticas    
+            </button>
+                   
+        </div>
+               
+        <div class="checkbox-group">
+                   
+            <div style="justify-content:center" id="showAllStatsContainer" class="visible checkbox-container">
+                    <input checked="" type="checkbox" id="showAllStats" /> <label style="text-align:center;flex:1" for="showAllStats">Mostrar todas las estadísticas</label>    
+            </div>
+                   
+            <div id="youngPlayersContainer" class="checkbox-container">
+                    <input type="checkbox" id="youngPlayers" /> <label title="Filtrar jugadores de 25 años o menos" for="youngPlayers">Solo jugadores jóvenes</label>    
+            </div><select onchange="applyFilters()" id="teamFilter" class="border ml-2 p-2 rounded"><option value="">Filtrar por equipo</option></select>     
+            <button title="Reiniciar filtro por equipo" class="clear-search-button visible" id="clearTeamFilter">
+                    <em class="fas fa-times"> </em>    
+            </button>
+                 <select onchange="applyFilters()" id="countryFilter" class="border ml-2 p-2 rounded"><option value="">Filtrar por país</option></select>     
+            <button title="Reiniciar filtro por país" class="clear-search-button visible" id="clearCountryFilter">
+                    <em class="fas fa-times"> </em>    
+            </button>
+                 <span style="font-size:.8rem;opacity:.7;align-self:center;margin-left:1rem" id="lastUpdate">Última actualización: 25/10/2025</span>    
+        </div>
+               
+    </div>
+           
+    <div id="statsGrid" class="stats-grid">
+               
+    </div>
+           
+    <div class="legend">
+               
+        <h3>
+                <em class="fas fa-info-circle"> </em> Leyenda    
+        </h3>
+               
+        <div class="legend-grid">
+                   
+            <div class="legend-item">
+                    <strong>St:</strong> Media como portero    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Tk:</strong> Media como defensa    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Ps:</strong> Media como centrocampista    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Sh:</strong> Media como delantero    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Gam:</strong> Partidos jugados    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Sub:</strong> Veces sustituido    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Min:</strong> Minutos jugados    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Mom:</strong> Jugador del partido    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Sav:</strong> Paradas    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Con:</strong> Goles encajados    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Ktk:</strong> Entradas    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Kps:</strong> Pases    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Sht:</strong> Tiros    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Gls:</strong> Goles    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Ass:</strong> Asistencias    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>DP:</strong> Puntos de disciplina    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Inj:</strong> Partidos lesionado    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Sus:</strong> Partidos sancionado    
+            </div>
+                   
+            <div class="legend-item">
+                    <strong>Fit:</strong> Forma física    
+            </div>
+                   
+        </div>
+               
+    </div>
+           
+    <div id="comparePopup" class="popup-overlay">
+               
+        <div class="popup-content">
+                   
+            <button class="popup-close" id="closeComparePopup">
+                    <em class="fas fa-times"> </em>    
+            </button>
+                   
+            <h3>
+                    <em class="fas fa-balance-scale"> </em> Comparar jugadores    
+            </h3>
+                   
+            <div class="compare-container">
+                       
+                <div class="compare-search">
+                        <input placeholder="Buscar Jugador 1..." id="comparePlayer1" />    
+                    <div id="compareSuggestions1" class="suggestions">
+                               
+                    </div>
+                           
+                </div>
+                       
+                <div class="compare-search">
+                        <input placeholder="Buscar Jugador 2..." id="comparePlayer2" />    
+                    <div id="compareSuggestions2" class="suggestions">
+                               
+                    </div>
+                           
+                </div>
+                       
+            </div>
+                   
+            <div style="display:none" id="highlightContainer" class="highlight-checkbox">
+                    <input type="checkbox" id="highlightDiff" /> <label for="highlightDiff">Resaltar diferencias</label>    
+            </div>
+                   
+            <div id="compareTable">
+                       
+            </div>
+                   
+        </div>
+               
+    </div>
+           
+    <div id="playerPopup" class="popup-overlay">
+               
+        <div class="popup-content">
+                   
+            <button class="popup-close" id="closePlayerPopup">
+                    <em class="fas fa-times"> </em>    
+            </button>
+                   
+            <div id="playerPopupContent" class="player-popup-content">
+                       
+            </div>
+                   
+        </div>
+               
+    </div>
+           
+    <div id="cardPopup" class="popup-overlay">
+               
+        <div class="popup-content">
+                   
+            <button class="popup-close" id="closeCardPopup">
+                    <em class="fas fa-times"> </em>    
+            </button>
+                   
+            <div id="cardPopupContent" class="player-popup-content">
+                       
+            </div>
+                   
+        </div>
+               
+    </div>
+</div>
+<button class="back-to-top" id="backToTop">
+        <em class="fas fa-arrow-up"> </em>
+</button><script>document.addEventListener('DOMContentLoaded', function() {
+        const playerCountSpan = document.getElementById('playerCount');
+        playerCountSpan.textContent = '(0)';
+    });
+
+    // Variables globales
+    let isBestPlayersView = false;
+    let selectedSuggestionIndex = -1;
+    let isInputCollapsed = false;
+    let compareSelectedSuggestionIndex1 = -1;
+    let compareSelectedSuggestionIndex2 = -1;
+    let selectedPlayer1 = null;
+    let selectedPlayer2 = null;
+    let allPlayersData = [];
+    let youngDreamTeam = false;
+    let badgeMap = {};
+    let flagUrls = {};
+    let uniqueTeams = [];
+    let countryMap = {};
+    let fullNameToCodes = {};
+    let uniqueCountries = [];
+    let faceMap = {};
+    let stadiaMap = {};
+    let abbrMap = {};
+    
+    // Nueva función para aplicar filtros
+    function applyFilters() {
+        if (isBestPlayersView) {
+            showBestPlayers();
+        } else {
+            renderStatsGrid();
+        }
+    }
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    });
+    
+    // Stats order and default stats
+    const statsOrder = [
+        {key: 'performance_score', title: 'Puntos de rendimiento', icon: 'fa-medal'},
+        {key: 'gls', title: 'Goles', icon: 'fa-futbol'},
+        {key: 'min', title: 'Minutos jugados', icon: 'fa-clock'},
+        {key: 'ass', title: 'Asistencias', icon: 'fa-handshake'},
+        {key: 'mom', title: 'MVP del partido', icon: 'fa-trophy'},
+        {key: 'sav', title: 'Paradas', icon: 'fa-hand'},
+        {key: 'gam', title: 'Partidos jugados', icon: 'fa-calendar'},
+        {key: 'sht', title: 'Tiros', icon: 'fa-bullseye'},
+        {key: 'kps', title: 'Pases', icon: 'fa-share'},
+        {key: 'ktk', title: 'Entradas', icon: 'fa-shoe-prints'},
+        {key: 'fit', title: 'Forma física', icon: 'fa-heart'},
+        {key: 'st', title: 'Atr. Porteros', icon: 'fa-hands'},
+        {key: 'tk', title: 'Atr. Defensas', icon: 'fa-shield'},
+        {key: 'ps', title: 'Atr. Centrocampistas', icon: 'fa-arrows-left-right'},
+        {key: 'sh', title: 'Atr. Delanteros', icon: 'fa-person-running'},
+        {key: 'sub', title: 'Sustituciones', icon: 'fa-arrow-right-arrow-left'},
+        {key: 'con', title: 'Goles encajados', icon: 'fa-circle-xmark'},
+        {key: 'dp', title: 'Puntos de disciplina', icon: 'fa-user-shield'},
+        {key: 'inj', title: 'Partidos lesionado', icon: 'fa-hospital'},
+        {key: 'sus', title: 'Partidos sancionado', icon: 'fa-gavel'},
+        {key: 'goal_contributions', title: 'Participaciones de gol', icon: 'fa-futbol'},
+        {key: 'goals_per_minute', title: 'Ratio minutos por gol', icon: 'fa-stopwatch'},
+        {key: 'goals_conceded_ratio', title: 'Ratio goles encajados', icon: 'fa-shield-alt'},
+        {key: 'market_value', title: 'Valor de mercado', icon: 'fa-euro-sign'},
+        {key: 'age', title: 'Edad', icon: 'fa-birthday-cake'},
+        {key: 'team_value', title: 'Equipos por valor', icon: 'fa-euro-sign'},
+        {key: 'team_salary', title: 'Masa salarial', icon: 'fa-euro-sign'}
+    ];
+    const defaultStats = ['performance_score', 'gls', 'ass', 'mom'];
+    
+    // Initialize event listeners
+    document.addEventListener('DOMContentLoaded', async function() {
+        await loadFlags();
+        await loadCountryNames();
+        await loadFaces();
+        await loadStadia();
+        await loadAbbreviations();
+        
+        // Set up event listeners
+        document.getElementById('toggleInputButton').addEventListener('click', toggleInputSection);
+        document.getElementById('pasteButton').addEventListener('click', pasteFromClipboard);
+        document.getElementById('uploadButton').addEventListener('click', () => document.getElementById('fileInput').click());
+        document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+        document.getElementById('clearButton').addEventListener('click', deleteEntry);
+        document.getElementById('analyzeButton').addEventListener('click', analyzeData);
+        document.getElementById('bestPlayersButton').addEventListener('click', toggleBestPlayers);
+        document.getElementById('compareButton').addEventListener('click', openComparePopup);
+        document.getElementById('downloadButton').addEventListener('click', downloadStats);
+        document.getElementById('closeComparePopup').addEventListener('click', closeComparePopup);
+        document.getElementById('showAllStats').addEventListener('change', toggleAllStats);
+        document.getElementById('youngPlayers').addEventListener('change', toggleYoungPlayers);
+        document.getElementById('backToTop').addEventListener('click', scrollToTop);
+        document.getElementById('playerSearch').addEventListener('input', updateSuggestions);
+        document.getElementById('playerSearch').addEventListener('keydown', handleKeyNavigation);
+        document.getElementById('comparePlayer1').addEventListener('input', () => updateCompareSuggestions('comparePlayer1', 'compareSuggestions1'));
+        document.getElementById('comparePlayer2').addEventListener('input', () => updateCompareSuggestions('comparePlayer2', 'compareSuggestions2'));
+        document.getElementById('comparePlayer1').addEventListener('keydown', (e) => handleCompareKeyNavigation(e, 'comparePlayer1', 'compareSuggestions1'));
+        document.getElementById('comparePlayer2').addEventListener('keydown', (e) => handleCompareKeyNavigation(e, 'comparePlayer2', 'compareSuggestions2'));
+        document.getElementById('highlightDiff').addEventListener('change', updateCompareTable);
+        document.getElementById('playerData').addEventListener('input', updateTemplateCount);
+        document.getElementById('clearSearchButton').addEventListener('click', function() {
+            document.getElementById('playerSearch').value = '';
+            document.getElementById('suggestions').innerHTML = '';
+            document.getElementById('suggestions').classList.remove('visible');
+            const searchCard = document.getElementById('searchResultsCard');
+            if (searchCard) searchCard.remove();
+        });
+        document.getElementById('playerSearch').addEventListener('input', function() {
+            const clearButton = document.getElementById('clearSearchButton');
+            if (this.value.trim() === '') {
+                clearButton.classList.remove('visible');
+            } else {
+                clearButton.classList.add('visible');
+            }
+            updateSuggestions();
+        });
+        
+        // Nuevos event listeners para el popup de jugador
+        document.getElementById('closePlayerPopup').addEventListener('click', closePlayerPopup);
+        
+        // Event listeners para filtros
+        document.getElementById('clearTeamFilter').addEventListener('click', function() {
+            document.getElementById('teamFilter').value = '';
+            applyFilters();
+        });
+        document.getElementById('clearCountryFilter').addEventListener('click', function() {
+            document.getElementById('countryFilter').value = '';
+            applyFilters();
+        });
+        
+        // Initial setup
+        updateTemplateCount();
+        
+        // Scroll event for back to top button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        loadDefaultData();
+        document.getElementById('statsGrid').addEventListener('click', function(e) {
+            if (e.target.tagName === 'H3') {
+                const card = e.target.closest('.stat-card');
+                const cardContent = card.innerHTML;
+                showCardPopup(cardContent);
+            }
+            if (e.target.classList.contains('info-icon')) {
+                const statKey = e.target.closest('.stat-card').querySelector('div[id^="players-"]').id.split('-')[1];
+                showInfoPopup(statKey);
+            }
+        });
+    });
+    
+    // Funciones principales
+    async function loadDefaultData() {
+        try {
+            const response = await fetch('https://www.tusoccermanager.com/h85-statanalyzer-html');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const pre = doc.querySelector('pre');
+            const content = pre ? pre.textContent.trim() : html.trim();
+            document.getElementById('playerData').value = content;
+            updateTemplateCount();
+            // Extraer fecha
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            let lastDate = '';
+            for (let i = lines.length - 1; i >= 0; i--) {
+                if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(lines[i])) {
+                    lastDate = lines[i];
+                    break;
+                }
+            }
+            document.getElementById('lastUpdate').textContent = `Última actualización: ${lastDate}`;
+            analyzeData();
+        } catch (err) {
+            console.error('Error loading default data:', err);
+        }
+    }
+    
+    async function loadFlags() {
+        try {
+            const response = await fetch('https://www.tusoccermanager.com/h86-flagdb-html');
+            const html = await response.text();
+            
+            // Usar expresión regular para extraer las banderas
+            const flagRegex = /([a-z]{3}):\s*(https?:\/\/[^\s]+)/g;
+            let match;
+            
+            while ((match = flagRegex.exec(html)) !== null) {
+                const code = match[1];
+                const url = match[2];
+                flagUrls[code] = url;
+            }
+        } catch (err) {
+            console.error('Error loading flags:', err);
+        }
+    }
+    
+    async function loadCountryNames() {
+        try {
+            const response = await fetch('https://www.tusoccermanager.com/h87-fullnamedb-html');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const pre = doc.querySelector('pre');
+            const content = pre ? pre.textContent.trim() : html.trim();
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            lines.forEach(line => {
+                const [code, fullName] = line.split(':').map(p => p.trim());
+                countryMap[code] = fullName;
+                if (!fullNameToCodes[fullName]) {
+                    fullNameToCodes[fullName] = [];
+                }
+                fullNameToCodes[fullName].push(code);
+            });
+        } catch (err) {
+            console.error('Error loading country names:', err);
+        }
+    }
+    
+    async function loadFaces() {
+        try {
+            const response = await fetch('https://www.tusoccermanager.com/h88-facedb-html');
+            const html = await response.text();
+            
+            // Extraer el contenido del pre
+            const preContent = html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i);
+            if (preContent && preContent[1]) {
+                const content = preContent[1].trim();
+                const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+                lines.forEach(line => {
+                    const parts = line.split(':').map(p => p.trim());
+                    if (parts.length >= 2) {
+                        const key = parts[0];
+                        const url = parts.slice(1).join(':').trim();
+                        faceMap[key] = url;
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Error loading faces:', err);
+        }
+    }
+    
+    async function loadStadia() {
+        try {
+            const response = await fetch('https://www.tusoccermanager.com/h90-stadia-html');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const pre = doc.querySelector('pre');
+            const content = pre ? pre.textContent.trim() : html.trim();
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            lines.forEach(line => {
+                const parts = line.split(':').map(p => p.trim());
+                if (parts.length >= 2) {
+                    const team = parts[0];
+                    const url = parts.slice(1).join(':').trim();
+                    stadiaMap[team] = url;
+                }
+            });
+        } catch (err) {
+            console.error('Error loading stadia:', err);
+        }
+    }
+    
+    async function loadAbbreviations() {
+        try {
+            const response = await fetch('https://www.tusoccermanager.com/h95-teamabbreviationdb-html');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const pre = doc.querySelector('pre');
+            const content = pre ? pre.textContent.trim() : html.trim();
+            const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+            lines.forEach(line => {
+                const parts = line.split(':').map(p => p.trim());
+                if (parts.length >= 2) {
+                    const team = parts[0];
+                    const abbr = parts.slice(1).join(':').trim();
+                    abbrMap[team] = abbr.toUpperCase();
+                }
+            });
+        } catch (err) {
+            console.error('Error loading abbreviations:', err);
+        }
+    }
+    
+    function scrollToStats() {
+        const statsGrid = document.getElementById('statsGrid');
+        statsGrid.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function toggleInputSection() {
+        const inputContent = document.getElementById('inputContent');
+        const toggleButton = document.getElementById('toggleInputButton');
+        isInputCollapsed = !isInputCollapsed;
+        inputContent.classList.toggle('collapsed', isInputCollapsed);
+        toggleButton.innerHTML = `<i class="fas ${isInputCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'}"></i>`;
+    }
+    
+    async function handleFileUpload(event) {
+        const files = event.target.files;
+        let content = '';
+        for (const file of files) {
+            const text = await file.text();
+            content += text + '\n\n';
+        }
+        const textarea = document.getElementById('playerData');
+        const currentContent = textarea.value.trim();
+        textarea.value = currentContent ? currentContent + '\n\n' : content.trim();
+        updateTemplateCount();
+        event.target.value = '';
+    }
+    
+    async function pasteFromClipboard() {
+        try {
+            const text = await navigator.clipboard.readText();
+            const textarea = document.getElementById('playerData');
+            const currentContent = textarea.value.trim();
+            textarea.value = currentContent ? currentContent + '\n\n' : text;
+            updateTemplateCount();
+        } catch (err) {
+            alert('No se pudo acceder al portapapeles. Por favor, pega el contenido manualmente.');
+        }
+    }
+    
+    function deleteEntry() {
+        document.getElementById('playerData').value = '';
+        updateTemplateCount();
+        document.getElementById('showAllStatsContainer').classList.remove('visible');
+        document.getElementById('youngPlayersContainer').classList.remove('visible');
+        document.getElementById('searchContainer').classList.remove('visible');
+        document.getElementById('suggestions').innerHTML = '';
+        document.getElementById('suggestions').classList.remove('visible');
+        document.getElementById('statsGrid').innerHTML = '';
+        allPlayersData = [];
+        uniqueTeams = [];
+        populateTeamFilter();
+        uniqueCountries = [];
+        populateCountryFilter();
+        closeComparePopup();
+        closePlayerPopup();
+        document.getElementById('toggleInputButton').classList.add('hidden');
+    }
+    
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+    
+    function updateTemplateCount() {
+        const content = document.getElementById('playerData').value;
+        const lines = content.split('\n').map(line => line.trim()).filter(line => line && !line.includes('NaN'));
+        const headerRegex = /^Name\s+Age\s+Nat\s+St\s+Tk\s+Ps\s+Sh\s+Ag\s+KAb\s+TAb\s+PAb\s+SAb\s+Gam\s+Sub\s+Min\s+Mom\s+Sav\s+Con\s+Ktk\s+Kps\s+Sht\s+Gls\s+Ass\s+DP\s+Inj\s+Sus\s+Fit\s*$/;
+        let squadCount = lines.filter(line => headerRegex.test(line)).length;
+        if (squadCount === 0 && lines.length > 0) {
+            squadCount = 1;
+        }
+        document.getElementById('templateCount').textContent = `Plantillas: ${squadCount}`;
+    }
+    
+    function openComparePopup() {
+        if (!allPlayersData || allPlayersData.length === 0) {
+            alert('Por favor, analiza los datos primero.');
+            return;
+        }
+        const popup = document.getElementById('comparePopup');
+        popup.classList.add('visible');
+        document.getElementById('comparePlayer1').value = '';
+        document.getElementById('comparePlayer2').value = '';
+        document.getElementById('compareSuggestions1').innerHTML = '';
+        document.getElementById('compareSuggestions2').innerHTML = '';
+        document.getElementById('compareTable').innerHTML = '';
+        selectedPlayer1 = null;
+        selectedPlayer2 = null;
+        compareSelectedSuggestionIndex1 = -1;
+        compareSelectedSuggestionIndex2 = -1;
+        document.getElementById('highlightDiff').checked = false;
+        document.getElementById('highlightContainer').style.display = 'none';
+        document.addEventListener('click', handleClickOutsidePopup);
+        document.addEventListener('keydown', handlePopupEscape);
+        updateCompareTable();
+        popup.scrollTop = 0;
+    }
+    
+    function closeComparePopup() {
+        const popup = document.getElementById('comparePopup');
+        popup.classList.remove('visible');
+        document.removeEventListener('click', handleClickOutsidePopup);
+        document.removeEventListener('keydown', handlePopupEscape);
+    }
+    
+    function handleClickOutsidePopup(event) {
+        const popupContent = document.querySelector('.popup-content');
+        if (!popupContent.contains(event.target) && event.target !== document.querySelector('.compare')) {
+            closeComparePopup();
+        }
+    }
+    
+    function handlePopupEscape(event) {
+        if (event.key === 'Escape') {
+            closeComparePopup();
+        }
+    }
+    
+    function updateCompareSuggestions(inputId, suggestionsId) {
+        const searchInput = document.getElementById(inputId).value.trim().toLowerCase();
+        const suggestionsContainer = document.getElementById(suggestionsId);
+        suggestionsContainer.innerHTML = '';
+        const suggestionIndex = inputId === 'comparePlayer1' ? 'compareSelectedSuggestionIndex1' : 'compareSelectedSuggestionIndex2';
+        window[suggestionIndex] = -1;
+        const otherPlayer = inputId === 'comparePlayer1' ? selectedPlayer2 : selectedPlayer1;
+        if (!searchInput || !allPlayersData) {
+            suggestionsContainer.classList.remove('visible');
+            updateCompareTable();
+            return;
+        }
+        const matchedPlayers = allPlayersData
+            .filter(player => player.name.replace(/_/g, ' ').toLowerCase().includes(searchInput) && (!otherPlayer || player.name !== otherPlayer.name))
+            .slice(0, 5);
+        if (matchedPlayers.length === 0) {
+            suggestionsContainer.classList.remove('visible');
+            updateCompareTable();
+            return;
+        }
+        matchedPlayers.forEach(player => {
+            const suggestion = document.createElement('div');
+            suggestion.className = 'suggestion-item';
+            suggestion.textContent = formatPlayerName(player.name) + ` (${player.team})`;
+            suggestion.dataset.name = player.name;
+            suggestion.addEventListener('click', (event) => {
+                event.stopPropagation();
+                document.getElementById(inputId).value = formatPlayerName(player.name);
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.classList.remove('visible');
+                if (inputId === 'comparePlayer1') {
+                    selectedPlayer1 = player;
+                } else {
+                    selectedPlayer2 = player;
+                }
+                updateCompareTable();
+                checkHighlightVisibility();
+            });
+            suggestionsContainer.appendChild(suggestion);
+        });
+        suggestionsContainer.classList.add('visible');
+    }
+    
+    function handleCompareKeyNavigation(event, inputId, suggestionsId) {
+        const suggestionsContainer = document.getElementById(suggestionsId);
+        const suggestions = suggestionsContainer.getElementsByClassName('suggestion-item');
+        const suggestionIndex = inputId === 'comparePlayer1' ? 'compareSelectedSuggestionIndex1' : 'compareSelectedSuggestionIndex2';
+        if (suggestions.length === 0) return;
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            window[suggestionIndex] = Math.min(window[suggestionIndex] + 1, suggestions.length - 1);
+            updateCompareSelectedSuggestion(suggestions, suggestionIndex);
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            window[suggestionIndex] = Math.max(window[suggestionIndex] - 1, -1);
+            updateCompareSelectedSuggestion(suggestions, suggestionIndex);
+        } else if (event.key === 'Enter') {
+            event.preventDefault();
+            if (window[suggestionIndex] >= 0 && suggestions[window[suggestionIndex]]) {
+                const selectedName = suggestions[window[suggestionIndex]].dataset.name;
+                document.getElementById(inputId).value = formatPlayerName(selectedName);
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.classList.remove('visible');
+                const player = allPlayersData.find(p => p.name === selectedName);
+                if (inputId === 'comparePlayer1') {
+                    selectedPlayer1 = player;
+                } else {
+                    selectedPlayer2 = player;
+                }
+                updateCompareTable();
+                checkHighlightVisibility();
+            }
+        } else if (event.key === 'Escape') {
+            suggestionsContainer.innerHTML = '';
+            suggestionsContainer.classList.remove('visible');
+        }
+    }
+    
+    function updateCompareSelectedSuggestion(suggestions, suggestionIndex) {
+        Array.from(suggestions).forEach((suggestion, index) => {
+            suggestion.classList.toggle('selected', index === window[suggestionIndex]);
+        });
+        if (window[suggestionIndex] >= 0) {
+            suggestions[window[suggestionIndex]].scrollIntoView({block: 'nearest'});
+        }
+    }
+    
+    function checkHighlightVisibility() {
+        const highlightContainer = document.getElementById('highlightContainer');
+        if (selectedPlayer1 && selectedPlayer2) {
+            highlightContainer.style.display = 'flex';
+        } else {
+            highlightContainer.style.display = 'none';
+            document.getElementById('highlightDiff').checked = false;
+        }
+    }
+    
+    function updateCompareTable() {
+        const tableContainer = document.getElementById('compareTable');
+        tableContainer.innerHTML = '';
+        const showAll = document.getElementById('showAllStats').checked;
+        let statsToShow = showAll ? statsOrder : statsOrder.filter(stat => defaultStats.includes(stat.key));
+        
+        // Excluir team_value y team_salary de la comparación
+        statsToShow = statsToShow.filter(stat => stat.key !== 'team_value' && stat.key !== 'team_salary');
+        
+        const titleMap = {
+            'st': 'Pos. Ranking porteros',
+            'tk': 'Pos. Ranking defensas',
+            'ps': 'Pos. Ranking centrocamp.',
+            'sh': 'Pos. Ranking delanteros',
+            'market_value': 'Valor de mercado'
+        };
+
+        // Si ninguno es GK, ocultar stats de GK
+        const neitherGK = selectedPlayer1 && selectedPlayer2 && selectedPlayer1.position !== 'GK' && selectedPlayer2.position !== 'GK';
+        if (neitherGK) {
+            statsToShow = statsToShow.filter(stat => !['sav', 'st', 'con', 'goals_conceded_ratio'].includes(stat.key));
+        }
+
+        // Si ambos son GK, ocultar rankings de DF, MF, FW
+        const bothGK = selectedPlayer1 && selectedPlayer2 && selectedPlayer1.position === 'GK' && selectedPlayer2.position === 'GK';
+        if (bothGK) {
+            statsToShow = statsToShow.filter(stat => !['tk', 'ps', 'sh'].includes(stat.key));
+        }
+
+        // Para posiciones específicas
+        const bothDF = selectedPlayer1 && selectedPlayer2 && selectedPlayer1.position === 'DF' && selectedPlayer2.position === 'DF';
+        if (bothDF) {
+            statsToShow = statsToShow.filter(stat => !['ps', 'sh'].includes(stat.key));
+        }
+
+        const bothMF = selectedPlayer1 && selectedPlayer2 && selectedPlayer1.position === 'MF' && selectedPlayer2.position === 'MF';
+        if (bothMF) {
+            statsToShow = statsToShow.filter(stat => !['tk', 'sh'].includes(stat.key));
+        }
+
+        const bothFW = selectedPlayer1 && selectedPlayer2 && selectedPlayer1.position === 'FW' && selectedPlayer2.position === 'FW';
+        if (bothFW) {
+            statsToShow = statsToShow.filter(stat => !['tk', 'ps'].includes(stat.key));
+        }
+
+        // Solo mostrar rankings relevantes
+        if (selectedPlayer1 && selectedPlayer2) {
+            const pos1 = selectedPlayer1.position;
+            const pos2 = selectedPlayer2.position;
+            statsToShow = statsToShow.filter(stat => {
+                if (stat.key === 'st') return pos1 === 'GK' || pos2 === 'GK';
+                if (stat.key === 'tk') return pos1 === 'DF' || pos2 === 'DF';
+                if (stat.key === 'ps') return pos1 === 'MF' || pos2 === 'MF';
+                if (stat.key === 'sh') return pos1 === 'FW' || pos2 === 'FW';
+                return true;
+            });
+        }
+
+        let content = `
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Estadística</th>
+                        <th>${getPlayerHeader(selectedPlayer1)}</th>
+                        <th>${getPlayerHeader(selectedPlayer2)}</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        const highlight = document.getElementById('highlightDiff').checked && selectedPlayer1 && selectedPlayer2;
+        statsToShow.forEach(stat => {
+            const displayTitle = titleMap[stat.key] || stat.title;
+            let player1Raw = selectedPlayer1 ? selectedPlayer1[stat.key] : null;
+            let player2Raw = selectedPlayer2 ? selectedPlayer2[stat.key] : null;
+            let player1Value, player2Value;
+            if (stat.key in titleMap && stat.key !== 'market_value') {
+                const sorted = [...allPlayersData].sort((a, b) => b[stat.key] - a[stat.key]);
+                const rank1 = selectedPlayer1 ? sorted.findIndex(p => p.name === selectedPlayer1.name) + 1 : '-';
+                const rank2 = selectedPlayer2 ? sorted.findIndex(p => p.name === selectedPlayer2.name) + 1 : '-';
+                player1Value = rank1 !== '-' ? `${rank1}º` : '-';
+                player2Value = rank2 !== '-' ? `${rank2}º` : '-';
+                player1Raw = rank1 !== '-' ? rank1 : null;
+                player2Raw = rank2 !== '-' ? rank2 : null;
+            } else if (stat.key === 'market_value') {
+                player1Value = selectedPlayer1 ? selectedPlayer1.market_value.toFixed(2).replace('.', ',') + 'M' : '-';
+                player2Value = selectedPlayer2 ? selectedPlayer2.market_value.toFixed(2).replace('.', ',') + 'M' : '-';
+                player1Raw = selectedPlayer1 ? selectedPlayer1.market_value : null;
+                player2Raw = selectedPlayer2 ? selectedPlayer2.market_value : null;
+            } else {
+                player1Value = selectedPlayer1 ? (stat.key === 'fit' ? selectedPlayer1[stat.key] + '%' : stat.key === 'goals_per_minute' ? (selectedPlayer1[stat.key] > 0 ? (1 / selectedPlayer1[stat.key]).toFixed(0) + ' min/gol' : '-') : stat.key === 'goals_conceded_ratio' ? (selectedPlayer1[stat.key] === Infinity ? 'Imbatido' : Math.ceil(selectedPlayer1[stat.key]) + ' min/gol enc.') : selectedPlayer1[stat.key]) : '-';
+                player2Value = selectedPlayer2 ? (stat.key === 'fit' ? selectedPlayer2[stat.key] + '%' : stat.key === 'goals_per_minute' ? (selectedPlayer2[stat.key] > 0 ? (1 / selectedPlayer2[stat.key]).toFixed(0) + ' min/gol' : '-') : stat.key === 'goals_conceded_ratio' ? (selectedPlayer2[stat.key] === Infinity ? 'Imbatido' : Math.ceil(selectedPlayer2[stat.key]) + ' min/gol enc.') : selectedPlayer2[stat.key]) : '-';
+            }
+            let player1Class = '';
+            let player2Class = '';
+            if (highlight && player1Raw !== null && player2Raw !== null) {
+                const isLowerBetter = stat.key === 'dp' || stat.key === 'age';
+                const isHigherBetter = stat.key === 'market_value';
+                if (stat.key in titleMap) {
+                    if (player1Raw < player2Raw) {
+                        player1Class = 'highlight';
+                    } else if (player2Raw < player1Raw) {
+                        player2Class = 'highlight';
+                    }
+                } else if (isLowerBetter) {
+                    if (player1Raw < player2Raw) {
+                        player1Class = 'highlight';
+                    } else if (player2Raw < player1Raw) {
+                        player2Class = 'highlight';
+                    }
+                } else if (isHigherBetter || true) { // Default to higher better
+                    if (player1Raw > player2Raw) {
+                        player1Class = 'highlight';
+                    } else if (player2Raw > player1Raw) {
+                        player2Class = 'highlight';
+                    }
+                }
+            }
+            content += `
+                <tr>
+                    <td class="stat-name">${displayTitle}</td>
+                    <td class="${player1Class}">${player1Value}</td>
+                    <td class="${player2Class}">${player2Value}</td>
+                </tr>
+            `;
+        });
+        content += '</tbody></table>';
+        tableContainer.innerHTML = content;
+        checkHighlightVisibility();
+    }
+
+    function getPlayerHeader(player) {
+        if (!player) return 'Jugador';
+        const playerKey = player.name.replace(/ /g, '_');
+        const profileImage = faceMap[playerKey] || 'https://2img.net/i.imgur.com/7Y9zAkb.png';
+        const badgeUrl = player.badge || '';
+        const flagUrl = flagUrls[player.nat.toLowerCase()] || '';
+        const countryName = countryMap[player.nat.toLowerCase()] || player.nat;
+        return `
+            <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.5rem;">
+                <img src="${profileImage}" style="width: 48px; height: 48px; border-radius: 50%;" alt="Foto de ${player.name}"/>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <img src="${flagUrl}" style="width: 24px; height: 24px;" alt="Bandera de ${countryName}" title="${countryName}"/>
+                    <img src="${badgeUrl}" style="width: 36px; height: 36px;" alt="Escudo de ${player.team}" title="${player.team}"/>
+                </div>
+            </div>
+        `;
+    }
+    
+    async function analyzeData() {
+        const rawData = document.getElementById('playerData').value;
+        try {
+            const dbResponse = await fetch('https://www.tusoccermanager.com/h85-statanalyzer-html');
+            const dbHtml = await dbResponse.text();
+            const dbParser = new DOMParser();
+            const dbDoc = dbParser.parseFromString(dbHtml, 'text/html');
+            const pre = dbDoc.querySelector('pre');
+            const dbContent = pre ? pre.textContent : dbHtml;
+            const dbSquads = parseDBSquads(dbContent);
+            try {
+                const badgesResponse = await fetch('https://www.tusoccermanager.com/h63-teambadgesdatabase-html');
+                const badgesHtml = await badgesResponse.text();
+                const badgesDoc = dbParser.parseFromString(badgesHtml, 'text/html');
+                const liElements = badgesDoc.querySelectorAll('#shields-list li');
+                liElements.forEach(li => {
+                    const text = li.textContent.trim();
+                    const parts = text.split(':');
+                    if (parts.length >= 2) {
+                        const team = parts[0].trim();
+                        const url = parts.slice(1).join(':').trim();
+                        badgeMap[team] = url;
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching badges:', error);
+            }
+            const userBlocks = splitIntoSquads(rawData);
+            const userSquadTeams = userBlocks.map(block => {
+                const namesSet = new Set(extractNamesFromBlock(block));
+                let maxCount = 0;
+                let bestTeam = 'Desconocido';
+                dbSquads.forEach(ds => {
+                    const inter = ds.playerNames.filter(n => namesSet.has(n)).length;
+                    if (inter > maxCount) {
+                        maxCount = inter;
+                        bestTeam = ds.team;
+                    }
+                });
+                return bestTeam;
+            });
+            uniqueTeams = [...new Set(userSquadTeams)];
+            populateTeamFilter();
+            const allPlayers = processTemplateBlocks(userBlocks, userSquadTeams);
+            allPlayersData = allPlayers;
+            uniqueCountries = getUniqueCountries(allPlayersData);
+            populateCountryFilter();
+            updatePlayerCount();
+            renderStatsGrid();
+            isBestPlayersView = false;
+            document.getElementById('bestPlayersButton').innerHTML = '<i class="fas fa-star"></i> Mejores por posición';
+            document.getElementById('showAllStatsContainer').classList.add('visible');
+            document.getElementById('youngPlayersContainer').classList.add('visible');
+            document.getElementById('searchContainer').classList.add('visible');
+            if (!isInputCollapsed) toggleInputSection();
+            document.getElementById('toggleInputButton').classList.remove('hidden');
+            scrollToStats();
+        } catch (error) {
+            console.error('Error al obtener datos de equipos:', error);
+            const templateBlocks = splitIntoSquads(rawData);
+            const allPlayers = processTemplateBlocks(templateBlocks, []);
+            allPlayersData = allPlayers;
+            uniqueCountries = getUniqueCountries(allPlayersData);
+            populateCountryFilter();
+            updatePlayerCount();
+            renderStatsGrid();
+            isBestPlayersView = false;
+            document.getElementById('bestPlayersButton').innerHTML = '<i class="fas fa-star"></i> Mejores por posición';
+            document.getElementById('showAllStatsContainer').classList.add('visible');
+            document.getElementById('youngPlayersContainer').classList.add('visible');
+            document.getElementById('searchContainer').classList.add('visible');
+            if (!isInputCollapsed) toggleInputSection();
+            document.getElementById('toggleInputButton').classList.remove('hidden');
+            scrollToStats();
+        }
+    }
+    
+    function getUniqueCountries(players) {
+        const countrySet = new Set(players.map(p => countryMap[p.nat.toLowerCase()] || p.nat.toLowerCase()));
+        return Array.from(countrySet).sort();
+    }
+    
+    function populateTeamFilter() {
+        const select = document.getElementById('teamFilter');
+        select.innerHTML = '<option value="">Filtrar por equipo</option>';
+        uniqueTeams.forEach(team => {
+            const option = document.createElement('option');
+            option.value = team;
+            option.textContent = team;
+            select.appendChild(option);
+        });
+    }
+    
+    function populateCountryFilter() {
+        const select = document.getElementById('countryFilter');
+        select.innerHTML = '<option value="">Filtrar por país</option>';
+        uniqueCountries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country;
+            select.appendChild(option);
+        });
+    }
+    
+    function updatePlayerCount() {
+        const totalPlayers = allPlayersData.length;
+        const gkCount = allPlayersData.filter(p => p.position === 'GK').length;
+        const dfCount = allPlayersData.filter(p => p.position === 'DF').length;
+        const mfCount = allPlayersData.filter(p => p.position === 'MF').length;
+        const fwCount = allPlayersData.filter(p => p.position === 'FW').length;
+        const playerCountElement = document.getElementById('playerCount');
+        playerCountElement.textContent = `(${totalPlayers} jugadores)`;
+        playerCountElement.title = `GK: ${gkCount} DF: ${dfCount} MF: ${mfCount} FW: ${fwCount}`;
+    }
+    
+    function parseDBSquads(content) {
+        const lines = content.split('\n').map(l => l.trim()).filter(l => l);
+        let teamLines = [];
+        let squads = [];
+        let currentSquad = [];
+        const headerRegex = /^Name\s+Age\s+Nat\s+St\s+Tk\s+Ps\s+Sh\s+Ag\s+KAb\s+TAb\s+PAb\s+SAb\s+Gam\s+Sub\s+Min\s+Mom\s+Sav\s+Con\s+Ktk\s+Kps\s+Sht\s+Gls\s+Ass\s+DP\s+Inj\s+Sus\s+Fit\s*$/;
+        const sepRegex = /^[-]+$/;
+        let inSquad = false;
+        lines.forEach(l => {
+            if (!headerRegex.test(l) && !sepRegex.test(l) && !/^[A-Za-z_]+\s+\d+\s+[a-z]{3}\s+\d+/.test(l)) {
+                if (currentSquad.length) {
+                    squads.push(currentSquad.join('\n'));
+                    currentSquad = [];
+                    inSquad = false;
+                }
+                teamLines.push(l);
+            } else {
+                if (headerRegex.test(l)) {
+                    if (currentSquad.length) squads.push(currentSquad.join('\n'));
+                    currentSquad = [l];
+                    inSquad = true;
+                } else if (inSquad) {
+                    currentSquad.push(l);
+                }
+            }
+        });
+        if (currentSquad.length) squads.push(currentSquad.join('\n'));
+        const dbSquads = [];
+        teamLines.forEach((team, i) => {
+            const block = squads[i] || '';
+            const names = extractNamesFromBlock(block);
+            dbSquads.push({team, playerNames: names});
+        });
+        return dbSquads;
+    }
+    
+    function extractNamesFromBlock(block) {
+        if (!block) return [];
+        const lines = block.split('\n').filter(l => l.trim() && !/^Name/.test(l.trim()) && !/^[-]+$/.test(l.trim()));
+        return lines.map(l => l.split(/\s+/)[0].replace(/_/g, ' '));
+    }
+    
+    function splitIntoSquads(rawData) {
+        const lines = rawData.split('\n').map(line => line.trim()).filter(line => line && !line.includes('NaN'));
+        const headerRegex = /^Name\s+Age\s+Nat\s+St\s+Tk\s+Ps\s+Sh\s+Ag\s+KAb\s+TAb\s+PAb\s+SAb\s+Gam\s+Sub\s+Min\s+Mom\s+Sav\s+Con\s+Ktk\s+Kps\s+Sht\s+Gls\s+Ass\s+DP\s+Inj\s+Sus\s+Fit\s*$/;
+        const separatorRegex = /^[-]+$/;
+        const squads = [];
+        let currentSquad = [];
+        let lastWasForward = false;
+        let lastLineWasHeader = false;
+        let lastLineWasSeparator = false;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (headerRegex.test(line)) {
+                if (currentSquad.length > 0) {
+                    squads.push(currentSquad.join('\n'));
+                    currentSquad = [];
+                }
+                currentSquad.push(line);
+                lastLineWasHeader = true;
+                lastWasForward = false;
+                continue;
+            }
+            if (lastLineWasHeader && separatorRegex.test(line)) {
+                currentSquad.push(line);
+                lastLineWasHeader = false;
+                lastLineWasSeparator = true;
+                lastWasForward = false;
+                continue;
+            }
+            if (lastLineWasSeparator) {
+                currentSquad.push(line);
+                lastLineWasSeparator = false;
+                continue;
+            }
+            const parts = line.split(/\s+/);
+            if (parts.length >= 27 && !isNaN(parts[3]) && !isNaN(parts[6])) {
+                const st = parseInt(parts[3]);
+                const sh = parseInt(parts[6]);
+                const isForward = sh >= 15;
+                const isGoalkeeper = st >= 15;
+                if (lastWasForward && isGoalkeeper && currentSquad.length > 0) {
+                    squads.push(currentSquad.join('\n'));
+                    currentSquad = [];
+                }
+                currentSquad.push(line);
+                lastWasForward = isForward;
+            }
+        }
+        if (currentSquad.length > 0) {
+            squads.push(currentSquad.join('\n'));
+        }
+        return squads;
+    }
+    
+    function getPosition(player) {
+        const max = Math.max(player.st, player.tk, player.ps, player.sh);
+        if (player.st === max) return 'GK';
+        if (player.tk === max) return 'DF';
+        if (player.ps === max) return 'MF';
+        return 'FW';
+    }
+    
+    function calculatePerformanceScore(player, position) {
+        const { mom, sav, kps, ktk, ass, gls, sht } = player;
+        if (position === 'GK') {
+            return 10 * mom + 2 * sav + 2 * kps; // 2 puntos por parada (cambio solicitado)
+        } else if (position === 'DF') {
+            return 10 * mom + 5 * ktk + 1 * kps + 3 * ass + 5 * gls;
+        } else if (position === 'MF') {
+            return 10 * mom + 3 * kps + 2 * ktk + 5 * ass + 5 * gls; // 5 por asistencia, 2 por entrada (cambios solicitados)
+        } else if (position === 'FW') {
+            return 10 * mom + 7 * gls + 3 * ass + 2 * sht; // 7 por gol, 2 por tiro (cambios solicitados)
+        }
+        return 0;
+    }
+    
+    function processTemplateBlocks(blocks, squadTeams) {
+        const allPlayers = [];
+        blocks.forEach((block, squadIndex) => {
+            const lines = block.split('\n').filter(line => line.trim() && !line.includes('NaN'));
+            const headerRegex = /^Name\s+Age\s+Nat\s+St\s+Tk\s+Ps\s+Sh\s+Ag\s+KAb\s+TAb\s+PAb\s+SAb\s+Gam\s+Sub\s+Min\s+Mom\s+Sav\s+Con\s+Ktk\s+Kps\s+Sht\s+Gls\s+Ass\s+DP\s+Inj\s+Sus\s+Fit\s*$/;
+            const separatorRegex = /^[-]+$/;
+            const playerLines = lines.filter(line => !headerRegex.test(line) && !separatorRegex.test(line));
+            if (playerLines.length > 0) {
+                playerLines.forEach(line => {
+                    const parts = line.trim().split(/\s+/);
+                    if (parts.length >= 27) {
+                        const playerName = parts[0].replace(/_/g, ' ');
+                        const team = squadTeams[squadIndex] || "Sin equipo";
+                        const player = {
+                            name: playerName,
+                            team: team,
+                            badge: badgeMap[team] || '',
+                            age: parseInt(parts[1]),
+                            nat: parts[2],
+                            st: parseInt(parts[3]),
+                            tk: parseInt(parts[4]),
+                            ps: parseInt(parts[5]),
+                            sh: parseInt(parts[6]),
+                            ag: parseInt(parts[7]),
+                            kab: parseInt(parts[8]),
+                            tab: parseInt(parts[9]),
+                            pab: parseInt(parts[10]),
+                            sab: parseInt(parts[11]),
+                            gam: parseInt(parts[12]),
+                            sub: parseInt(parts[13]),
+                            min: parseInt(parts[14]),
+                            mom: parseInt(parts[15]),
+                            sav: parseInt(parts[16]),
+                            con: parseInt(parts[17]),
+                            ktk: parseInt(parts[18]),
+                            kps: parseInt(parts[19]),
+                            sht: parseInt(parts[20]),
+                            gls: parseInt(parts[21]),
+                            ass: parseInt(parts[22]),
+                            dp: parseInt(parts[23]),
+                            inj: parseInt(parts[24]),
+                            sus: parseInt(parts[25]),
+                            fit: parseInt(parts[26]),
+                            goal_contributions: parseInt(parts[21]) + parseInt(parts[22]),
+                            goals_per_minute: parts[14] > 0 ? parseInt(parts[21]) / parseInt(parts[14]) : 0
+                        };
+                        player.position = getPosition(player);
+                        player.performance_score = calculatePerformanceScore(player, player.position);
+                        player.goals_conceded_ratio = (player.position === 'GK' && player.min >= 450) ? (player.con > 0 ? player.min / player.con : Infinity) : 0;
+                        player.market_value = calculatePlayerValue(player);
+                        player.salary = calculateSalary(Math.max(player.st, player.tk, player.ps, player.sh));
+                        allPlayers.push(player);
+                    }
+                });
+            }
+        });
+        return allPlayers;
+    }
+    
+    function formatPlayerName(name) {
+        const parts = name.split(' ');
+        if (parts.length === 2) {
+            const [first, last] = parts;
+            if (first.length === 1) {
+                return `${first}. ${last}`;
+            } else {
+                return `${first} ${last[0]}.`;
+            }
+        } else if (parts.length === 3) {
+            return `${parts[0][0]}. ${parts[1]} ${parts[2]}`;
+        }
+        return name;
+    }
+    
+    function renderStatsGrid() {
+        const showAll = document.getElementById('showAllStats').checked;
+        const youngOnly = document.getElementById('youngPlayers').checked;
+        const selectedTeam = document.getElementById('teamFilter').value;
+        const selectedCountry = document.getElementById('countryFilter').value;
+        let filteredData = allPlayersData;
+        if (youngOnly) {
+            filteredData = filteredData.filter(p => p.age <= 25);
+        }
+        if (selectedTeam) {
+            filteredData = filteredData.filter(p => p.team === selectedTeam);
+        }
+        if (selectedCountry) {
+            const codes = fullNameToCodes[selectedCountry] || [];
+            filteredData = filteredData.filter(p => codes.includes(p.nat.toLowerCase()));
+        }
+        const statsToShow = showAll ? statsOrder : statsOrder.filter(stat => defaultStats.includes(stat.key));
+        const statsGrid = document.getElementById('statsGrid');
+        statsGrid.innerHTML = '';
+        statsToShow.forEach(stat => {
+            if (stat.key === 'team_value') {
+                addTeamValueCard(filteredData, 'Equipos por valor', youngOnly ? '(Solo jóvenes)' : '');
+                return;
+            }
+            if (stat.key === 'team_salary') {
+                addTeamValueCard(filteredData, 'Masa salarial', youngOnly ? '(Solo jóvenes)' : '', 'salary');
+                return;
+            }
+            let sortedPlayers = [...filteredData];
+            if (stat.key === 'sav' || stat.key === 'st') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'GK');
+            } else if (stat.key === 'tk') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'DF');
+            } else if (stat.key === 'ps') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'MF');
+            } else if (stat.key === 'sh') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'FW');
+            }
+            if (stat.key === 'age') {
+                sortedPlayers.sort((a, b) => b.age - a.age);
+            } else {
+                sortedPlayers.sort((a, b) => {
+                    if (stat.key === 'goals_per_minute' || stat.key === 'performance_score' || stat.key === 'goals_conceded_ratio' || stat.key === 'market_value') {
+                        return b[stat.key] - a[stat.key];
+                    }
+                    return b[stat.key] - a[stat.key];
+                });
+            }
+            if (stat.key === 'goals_conceded_ratio') {
+                sortedPlayers = sortedPlayers.filter(p => p.goals_conceded_ratio > 0);
+            }
+            addStatCard(stat.title, sortedPlayers, stat.icon, stat.key);
+        });
+        addTeamValueCard(filteredData, 'Rendimiento por equipo', '', 'performance_score');
+        if (!document.getElementById('showAllStats').checked) {
+            const moreButton = document.createElement('div');
+            moreButton.className = 'centered-button';
+            moreButton.innerHTML = `
+                <button class="show-more" style="background-color: var(--primary-color); color: white; border-radius: 20px; text-align: center; padding: 0.8rem 1.5rem;" onclick="document.getElementById('showAllStats').checked = true; toggleAllStats(); this.remove();">
+                    Ver todas las estadísticas <i class="fas fa-chevron-down"></i>
+                </button>
+            `;
+            statsGrid.appendChild(moreButton);
+        }
+    }
+    
+    function addTeamValueCard(data, title, suffix = '', key = 'market_value') {
+        const teamValues = data.reduce((acc, player) => {
+            if (player.team !== 'Sin equipo') {
+                if (!acc[player.team]) {
+                    acc[player.team] = 0;
+                }
+                acc[player.team] += player[key];
+            }
+            return acc;
+        }, {});
+        const sortedTeams = Object.entries(teamValues).sort((a, b) => b[1] - a[1]);
+        const card = document.createElement('div');
+        card.className = 'stat-card';
+        const icon = key === 'performance_score' ? 'fa-trophy' : 'fa-euro-sign';
+        let content = `
+            <h3><i class="fas ${icon}"></i> ${title} ${suffix}</h3>
+            <div id="teams-value">
+        `;
+        let currentRank = 1;
+        let lastValue = null;
+        sortedTeams.forEach(([team, value], index) => {
+            if (index > 0 && value !== lastValue) {
+                currentRank = index + 1;
+            }
+            lastValue = value;
+            const badgeUrl = badgeMap[team] || '';
+            const badgeImg = badgeUrl ? `<img src="${badgeUrl}" alt="${team}" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 5px;">` : '';
+            const displayValue = key === 'performance_score' ? Math.floor(value) : value.toFixed(2).replace('.', ',') + 'M';
+            content += `
+                <div class="player-stat">
+                    <span class="player-rank">${currentRank}º</span>
+                    <span>${badgeImg} <a href="javascript:void(0)" onclick="showTeamPopup('${team.replace(/'/g, "\\'")}')" class="player-name-link">${team}</a></span>
+                    <span class="player-stat-value">${displayValue}</span>
+                </div>
+            `;
+        });
+        content += `
+            </div>
+        `;
+        card.innerHTML = content;
+        document.getElementById('statsGrid').appendChild(card);
+    }
+    
+    function toggleAllStats() {
+        applyFilters();
+        scrollToStats();
+        if (document.getElementById('comparePopup').classList.contains('visible')) {
+            updateCompareTable();
+        }
+    }
+    
+    function toggleYoungPlayers() {
+        applyFilters();
+        scrollToStats();
+    }
+    
+    function addStatCard(title, players, icon, key) {
+        const card = document.createElement('div');
+        card.className = 'stat-card';
+        let tooltip = '';
+        if (key === 'goal_contributions') {
+            tooltip = '<a href="javascript:void(0)" class="info-icon fas fa-info-circle" onclick="showInfoPopup(\'goal_contributions\')"></a>';
+        } else if (key === 'goals_conceded_ratio') {
+            tooltip = '<a href="javascript:void(0)" class="info-icon fas fa-info-circle" onclick="showInfoPopup(\'goals_conceded_ratio\')"></a>';
+        } else if (key === 'performance_score') {
+            tooltip = '<a href="javascript:void(0)" class="info-icon fas fa-info-circle" onclick="showInfoPopup(\'performance_score\')"></a>';
+        }
+        let content = `
+            <h3><i class="fas ${icon}"></i> ${title} ${tooltip}</h3>
+            <div id="players-${key}">
+                ${renderPlayers(players.slice(0, 5), key)}
+            </div>
+            <div class="button-container">
+                <button class="show-less" id="show-less-btn-${key}" style="display: none;">
+                    Mostrar cinco menos <i class="fas fa-chevron-up"></i>
+                </button>
+                ${players.length > 5 ? `
+                    <button class="show-more" id="show-more-btn-${key}">
+                        Mostrar cinco más <i class="fas fa-chevron-down"></i>
+                    </button>
+                ` : ''}
+            </div>
+        `;
+        card.innerHTML = content;
+        document.getElementById('statsGrid').appendChild(card);
+        card.dataset.players = JSON.stringify(players);
+        card.dataset.currentShown = '5';
+        
+        // Add event listeners to the buttons
+        if (players.length > 5) {
+            document.getElementById(`show-more-btn-${key}`).addEventListener('click', () => showFiveMore(key, players.length));
+        }
+        const showLessBtn = document.getElementById(`show-less-btn-${key}`);
+        if (showLessBtn) {
+            showLessBtn.addEventListener('click', () => showFiveLess(key, players.length));
+        }
+    }
+    
+    function renderPlayers(players, key) {
+        let currentRank = 1;
+        let lastValue = null;
+        return players.map((p, index) => {
+            const value = p[key];
+            if (index > 0 && value !== lastValue) {
+                currentRank = index + 1;
+            }
+            lastValue = value;
+            const flagUrl = flagUrls[p.nat.toLowerCase()] || '';
+            const flagImg = flagUrl ? `<img src="${flagUrl}" class="flag-icon" alt="${p.nat}"/>` : '';
+            const formattedName = formatPlayerName(p.name);
+            const teamAbbr = abbrMap[p.team] || p.team.toUpperCase();
+            let displayValue = key === 'fit' ? p[key] + '%' : 
+                                 key === 'goals_per_minute' ? (p[key] > 0 ? (1 / p[key]).toFixed(0) + ' min/gol' : '-') : 
+                                 key === 'goals_conceded_ratio' ? (p[key] === Infinity ? 'Imbatido' : Math.ceil(p[key]) + ' min/gol enc.') : 
+                                 key === 'market_value' ? p[key].toFixed(2).replace('.', ',') + 'M' : 
+                                 key === 'age' ? p.age : p[key];
+            
+            // Reemplazar "undefined" por "-"
+            if (displayValue === undefined || displayValue === 'undefined') {
+                displayValue = '-';
+            }
+            
+            return `
+                <div class="player-stat">
+                    <span class="player-rank">${currentRank}º</span>
+                    <span title="${p.position}">${flagImg}<a href="javascript:void(0)" onclick="showPlayerPopup('${p.name.replace(/'/g, "\\'")}')" class="player-name-link">${formattedName}</a> (<a href="javascript:void(0)" onclick="showTeamPopup('${p.team.replace(/'/g, "\\'")}')" class="player-name-link">${teamAbbr}</a>)</span>
+                    <span class="player-stat-value">${displayValue}</span>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    function renderDreamTeamPlayer(player, position) {
+        const flagUrl = flagUrls[player.nat.toLowerCase()] || '';
+        const flagImg = flagUrl ? `<img src="${flagUrl}" class="flag-icon" alt="${player.nat}"/>` : '';
+        const formattedName = formatPlayerName(player.name);
+        return `
+            <div class="player-stat">
+                <span class="player-rank">${position}</span>
+                <span>${flagImg}<a href="javascript:void(0)" onclick="showPlayerPopup('${player.name.replace(/'/g, "\\'")}')" class="player-name-link">${formattedName}</a> (<a href="javascript:void(0)" onclick="showTeamPopup('${player.team.replace(/'/g, "\\'")}')" class="player-name-link">${player.team}</a>)</span>
+                <span class="player-stat-value"></span>
+            </div>
+        `;
+    }
+    
+    function showFiveMore(key, totalPlayers) {
+        const card = document.querySelector(`.stat-card:has(#players-${key})`);
+        const playersContainer = document.getElementById(`players-${key}`);
+        const showMoreBtn = document.getElementById(`show-more-btn-${key}`);
+        const showLessBtn = document.getElementById(`show-less-btn-${key}`);
+        const allPlayers = JSON.parse(card.dataset.players);
+        const currentShown = parseInt(card.dataset.currentShown);
+        const nextShown = Math.min(currentShown + 5, allPlayers.length);
+        playersContainer.innerHTML = renderPlayers(allPlayers.slice(0, nextShown), key);
+        card.dataset.currentShown = nextShown.toString();
+        showLessBtn.style.display = nextShown > 5 ? 'block' : 'none';
+        showMoreBtn.style.display = nextShown >= allPlayers.length ? 'none' : 'block';
+    }
+    
+    function showFiveLess(key, totalPlayers) {
+        const card = document.querySelector(`.stat-card:has(#players-${key})`);
+        const playersContainer = document.getElementById(`players-${key}`);
+        const showMoreBtn = document.getElementById(`show-more-btn-${key}`);
+        const showLessBtn = document.getElementById(`show-less-btn-${key}`);
+        const allPlayers = JSON.parse(card.dataset.players);
+        const currentShown = parseInt(card.dataset.currentShown);
+        const nextShown = Math.max(currentShown - 5, 5);
+        playersContainer.innerHTML = renderPlayers(allPlayers.slice(0, nextShown), key);
+        card.dataset.currentShown = nextShown.toString();
+        showMoreBtn.style.display = 'block';
+        if (nextShown <= 5) {
+            showLessBtn.style.display = 'none';
+        }
+    }
+    
+    function updateSuggestions() {
+        const searchInput = document.getElementById('playerSearch').value.trim().toLowerCase();
+        const suggestionsContainer = document.getElementById('suggestions');
+        suggestionsContainer.innerHTML = '';
+        selectedSuggestionIndex = -1;
+        if (!searchInput || !allPlayersData) {
+            suggestionsContainer.classList.remove('visible');
+            return;
+        }
+        const matchedPlayers = allPlayersData
+            .filter(player => formatPlayerName(player.name).toLowerCase().includes(searchInput) || player.name.toLowerCase().includes(searchInput))
+            .slice(0, 5);
+        if (matchedPlayers.length === 0) {
+            suggestionsContainer.classList.remove('visible');
+            return;
+        }
+        matchedPlayers.forEach(player => {
+            const suggestion = document.createElement('div');
+            suggestion.className = 'suggestion-item';
+            suggestion.textContent = formatPlayerName(player.name) + ` (${player.team})`;
+            suggestion.dataset.name = player.name;
+            suggestion.addEventListener('click', () => {
+                document.getElementById('playerSearch').value = formatPlayerName(player.name);
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.classList.remove('visible');
+                searchPlayers(player.name);
+            });
+            suggestionsContainer.appendChild(suggestion);
+        });
+        suggestionsContainer.classList.add('visible');
+    }
+    
+    function handleKeyNavigation(event) {
+        const suggestionsContainer = document.getElementById('suggestions');
+        const suggestions = suggestionsContainer.getElementsByClassName('suggestion-item');
+        if (suggestions.length === 0) return;
+        if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, suggestions.length - 1);
+            updateSelectedSuggestion(suggestions);
+        } else if (event.key === 'ArrowUp') {
+            event.preventDefault();
+            selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, -1);
+            updateSelectedSuggestion(suggestions);
+        } else if (event.key === 'Enter') {
+            event.preventDefault();
+            if (selectedSuggestionIndex >= 0 && suggestions[selectedSuggestionIndex]) {
+                const selectedName = suggestions[selectedSuggestionIndex].dataset.name;
+                document.getElementById('playerSearch').value = formatPlayerName(selectedName);
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.classList.remove('visible');
+                searchPlayers(selectedName);
+            } else if (document.getElementById('playerSearch').value.trim()) {
+                searchPlayers();
+            }
+        } else if (event.key === 'Escape') {
+            suggestionsContainer.innerHTML = '';
+            suggestionsContainer.classList.remove('visible');
+        }
+    }
+    
+    function updateSelectedSuggestion(suggestions) {
+        Array.from(suggestions).forEach((suggestion, index) => {
+            suggestion.classList.toggle('selected', index === selectedSuggestionIndex);
+        });
+        if (selectedSuggestionIndex >= 0) {
+            suggestions[selectedSuggestionIndex].scrollIntoView({block: 'nearest'});
+        }
+    }
+    
+    function searchPlayers(searchName) {
+        const searchInput = searchName || document.getElementById('playerSearch').value.trim();
+        const statsGrid = document.getElementById('statsGrid');
+        const searchCard = document.getElementById('searchResultsCard');
+        if (searchCard) searchCard.remove();
+        if (!searchInput || !allPlayersData) return;
+        const matchedPlayers = allPlayersData.filter(player => 
+            formatPlayerName(player.name).toLowerCase().includes(searchInput.toLowerCase()) || player.name.toLowerCase().includes(searchInput.toLowerCase())
+        );
+        if (matchedPlayers.length === 0) return;
+        const card = document.createElement('div');
+        card.className = 'stat-card';
+        card.id = 'searchResultsCard';
+        let content = `
+            <h3><i class="fas fa-search"></i> Resultados de búsqueda <i class="fas fa-info-circle info-icon" title="Las posiciones corresponden al ranking global"></i></h3>
+            <div id="search-results">
+        `;
+        matchedPlayers.forEach(player => {
+            const flagUrl = flagUrls[player.nat.toLowerCase()] || '';
+            const flagImg = flagUrl ? `<img src="${flagUrl}" class="flag-icon" alt="${player.nat}"/>` : '';
+            const formattedName = formatPlayerName(player.name);
+            content += `
+                <div class="player-stat">
+                    <span class="player-rank"></span>
+                    <span>${flagImg}<a href="javascript:void(0)" onclick="showPlayerPopup('${player.name.replace(/'/g, "\\'")}')" class="player-name-link">${formattedName}</a> (${player.team})</span>
+                    <span class="player-stat-value"></span>
+                </div>
+            `;
+            const showAll = document.getElementById('showAllStats').checked;
+            const statsToSearch = showAll ? statsOrder : statsOrder.filter(stat => defaultStats.includes(stat.key));
+            statsToSearch.forEach(stat => {
+                const sortedPlayers = [...allPlayersData].sort((a, b) => {
+                    if (stat.key === 'goals_per_minute') return b[stat.key] - a[stat.key];
+                    return b[stat.key] - a[stat.key];
+                });
+                const rank = sortedPlayers.findIndex(p => p.name === player.name) + 1;
+                if (rank > 0) {
+                    let displayValue = stat.key === 'fit' ? player[stat.key] + '%' : 
+                                     stat.key === 'goals_per_minute' ? (player[stat.key] > 0 ? (1 / player[stat.key]).toFixed(0) + ' min/gol' : '-') : 
+                                     stat.key === 'goals_conceded_ratio' ? (player[stat.key] === Infinity ? 'Imbatido' : Math.ceil(player[stat.key]) + ' min/gol enc.') : 
+                                     player[stat.key];
+                    
+                    // Reemplazar "undefined" por "-"
+                    if (displayValue === undefined || displayValue === 'undefined') {
+                        displayValue = '-';
+                    }
+                    
+                    content += `
+                        <div class="player-stat">
+                            <span></span>
+                            <span>${rank}º ${stat.title}:</span>
+                            <span class="player-stat-value">${displayValue}</span>
+                        </div>
+                    `;
+                }
+            });
+        });
+        content += '</div>';
+        if (!document.getElementById('showAllStats').checked) {
+            content += `
+                <div class="button-container">
+                    <button class="show-more" style="border-radius: 20px;" onclick="showAllStatsInSearch('${matchedPlayers[0].name.replace(/'/g, "\\'")}');">
+                        Ver más <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            `;
+        }
+        card.innerHTML = content;
+        statsGrid.prepend(card);
+    }
+    
+    function getTopPlayers(position, count, data = allPlayersData) {
+        return [...data]
+            .filter(p => p.position === position)
+            .sort((a, b) => b.performance_score - a.performance_score)
+            .slice(0, count);
+    }
+    
+    function showBestPlayers() {
+        const statsGrid = document.getElementById('statsGrid');
+        statsGrid.innerHTML = '';
+        const youngOnly = document.getElementById('youngPlayers').checked;
+        const selectedTeam = document.getElementById('teamFilter').value;
+        const selectedCountry = document.getElementById('countryFilter').value;
+        let filteredData = allPlayersData;
+        if (youngOnly) {
+            filteredData = filteredData.filter(p => p.age <= 25);
+        }
+        if (selectedTeam) {
+            filteredData = filteredData.filter(p => p.team === selectedTeam);
+        }
+        if (selectedCountry) {
+            const codes = fullNameToCodes[selectedCountry] || [];
+            filteredData = filteredData.filter(p => codes.includes(p.nat.toLowerCase()));
+        }
+        const topGK = getTopPlayers('GK', 1, filteredData)[0] || {};
+        const topDF = getTopPlayers('DF', 1, filteredData)[0] || {};
+        const topMF = getTopPlayers('MF', 1, filteredData)[0] || {};
+        const topFW = getTopPlayers('FW', 1, filteredData)[0] || {};
+        const positions = [
+            { title: 'Mejor portero', player: topGK, icon: 'fa-hands' },
+            { title: 'Mejor defensa', player: topDF, icon: 'fa-shield' },
+            { title: 'Mejor centrocampista', player: topMF, icon: 'fa-arrows-left-right' },
+            { title: 'Mejor delantero', player: topFW, icon: 'fa-person-running' }
+        ];
+        positions.forEach(position => {
+            const player = position.player;
+            if (!player.name) return;
+            const card = document.createElement('div');
+            card.className = 'stat-card';
+            const flagUrl = flagUrls[player.nat.toLowerCase()] || '';
+            const flagImg = flagUrl ? `<img src="${flagUrl}" class="flag-icon" alt="${player.nat}"/>` : '';
+            const formattedName = formatPlayerName(player.name);
+            card.innerHTML = `
+                <h3><i class="fas ${position.icon}"></i> ${position.title}</h3>
+                <div class="player-stat">
+                    <span class="player-rank">1º</span>
+                    <span title="${player.position}">${flagImg}<a href="javascript:void(0)" onclick="showPlayerPopup('${player.name.replace(/'/g, "\\'")}')" class="player-name-link">${formattedName}</a> (<a href="javascript:void(0)" onclick="showTeamPopup('${player.team.replace(/'/g, "\\'")}')" class="player-name-link">${player.team}</a>)</span>
+                    <span class="player-stat-value"></span>
+                </div>
+            `;
+            statsGrid.appendChild(card);
+        });
+        // Dream Team con representación visual
+        const dreamTeamListCard = document.createElement('div');
+        dreamTeamListCard.className = 'stat-card';
+        
+        const topGKDream = getTopPlayers('GK', 1, filteredData)[0] || {};
+        const topDFs = getTopPlayers('DF', 4, filteredData);
+        const topMFs = getTopPlayers('MF', 4, filteredData);
+        const topFWs = getTopPlayers('FW', 2, filteredData);
+        
+        // Verificar si hay suficientes jugadores para formar el Dream Team
+        const hasEnoughPlayers = topGKDream.name && topDFs.length >= 4 && topMFs.length >= 4 && topFWs.length >= 2;
+        
+        let dreamTeamListContent = `
+            <h3><i class="fas fa-trophy"></i> Dream Team</h3>
+            <div class="checkbox-container visible" style="margin-bottom: 1rem;">
+                <input id="youngDreamTeam" type="checkbox" ${youngOnly ? 'checked' : ''} />
+                <label for="youngDreamTeam" title="Solo jugadores de 25 años o menos">Solo jugadores jóvenes</label>
+            </div>
+            <div class="dream-team-list" id="dreamTeamList">
+        `;
+        
+        if (!hasEnoughPlayers) {
+            dreamTeamListContent += `
+                <div class="warning-message">
+                    No es posible confeccionar un Dream Team debido a la falta de jugadores con los filtros seleccionados.
+                </div>
+            `;
+        } else {
+            if (topGKDream.name) dreamTeamListContent += renderDreamTeamPlayer(topGKDream, 'GK');
+            topDFs.forEach(df => {
+                if (df.name) dreamTeamListContent += renderDreamTeamPlayer(df, 'DF');
+            });
+            topMFs.forEach(mf => {
+                if (mf.name) dreamTeamListContent += renderDreamTeamPlayer(mf, 'MF');
+            });
+            topFWs.forEach(fw => {
+                if (fw.name) dreamTeamListContent += renderDreamTeamPlayer(fw, 'FW');
+            });
+        }
+        
+        dreamTeamListContent += `</div>`;
+        dreamTeamListCard.innerHTML = dreamTeamListContent;
+        statsGrid.appendChild(dreamTeamListCard);
+        document.getElementById('youngDreamTeam').addEventListener('change', (e) => {
+            document.getElementById('youngPlayers').checked = e.target.checked;
+            showBestPlayers();
+        });
+        const dreamTeamVisualCard = document.createElement('div');
+        dreamTeamVisualCard.className = 'stat-card';
+        let dreamTeamVisualContent = `
+            <h3><i class="fas fa-trophy"></i> Representación visual</h3>
+            <div class="dream-team-visual">
+        `;
+        
+        if (!hasEnoughPlayers) {
+            dreamTeamVisualContent += `
+                <div class="warning-message">
+                    No es posible mostrar la representación visual debido a la falta de jugadores con los filtros seleccionados.
+                </div>
+            `;
+        } else {
+            dreamTeamVisualContent += `
+                <div class="field-container">
+                    <div class="field-lines">
+                        <div class="field-line" style="top: 0; left: 0; right: 0; height: 2px;"></div> <!-- Línea de medio campo -->
+                        <div class="field-line" style="top: 0; bottom: 0; left: 0; width: 2px;"></div> <!-- Línea lateral izquierda -->
+                        <div class="field-line" style="top: 0; bottom: 0; right: 0; width: 2px;"></div> <!-- Línea lateral derecha -->
+                        <div class="field-line" style="bottom: 0; left: 0; right: 0; height: 2px;"></div> <!-- Línea de fondo -->
+                    </div>
+            `;
+            // Posiciones de los jugadores en el campo (coordenadas relativas)
+            const fieldPositions = {
+                'GK': [{left: '50%', top: '90%'}],
+                'DF': [
+                    {left: '20%', top: '70%'},
+                    {left: '40%', top: '70%'},
+                    {left: '60%', top: '70%'},
+                    {left: '80%', top: '70%'}
+                ],
+                'MF': [
+                    {left: '20%', top: '45%'},
+                    {left: '40%', top: '45%'},
+                    {left: '60%', top: '45%'},
+                    {left: '80%', top: '45%'}
+                ],
+                'FW': [
+                    {left: '35%', top: '20%'},
+                    {left: '65%', top: '20%'}
+                ]
+            };
+            // Añadir jugadores al campo
+            const dreamTeamPlayers = {
+                'GK': [topGKDream],
+                'DF': topDFs,
+                'MF': topMFs,
+                'FW': topFWs
+            };
+            Object.keys(dreamTeamPlayers).forEach(position => {
+                const players = dreamTeamPlayers[position];
+                const positions = fieldPositions[position];
+                
+                players.forEach((player, index) => {
+                    if (player.name && positions && index < positions.length) {
+                        const pos = positions[index];
+                        const formattedName = formatPlayerName(player.name);
+                        const positionClass = position.toLowerCase();
+                        
+                        dreamTeamVisualContent += `
+                            <div class="player-circle ${positionClass}" style="left: ${pos.left}; top: ${pos.top};">
+                                ${position}
+                                <div class="player-name">${formattedName}</div>
+                            </div>
+                        `;
+                    }
+                });
+            });
+            dreamTeamVisualContent += `
+                </div>
+                <div class="formation-display">Formación: 1-4-4-2</div>
+            `;
+        }
+        
+        dreamTeamVisualContent += `</div>`;
+        dreamTeamVisualCard.innerHTML = dreamTeamVisualContent;
+        statsGrid.appendChild(dreamTeamVisualCard);
+        isBestPlayersView = true;
+        document.getElementById('bestPlayersButton').innerHTML = '<i class="fas fa-arrow-left"></i> Volver';
+        document.getElementById('showAllStatsContainer').classList.remove('visible');
+        document.getElementById('youngPlayersContainer').classList.remove('visible');
+        document.getElementById('searchContainer').classList.remove('visible');
+        document.getElementById('suggestions').innerHTML = '';
+        document.getElementById('suggestions').classList.remove('visible');
+        scrollToStats();
+    }
+    
+    function showStatsGrid() {
+        renderStatsGrid();
+        isBestPlayersView = false;
+        document.getElementById('bestPlayersButton').innerHTML = '<i class="fas fa-star"></i> Mejores por posición';
+        document.getElementById('showAllStatsContainer').classList.add('visible');
+        document.getElementById('youngPlayersContainer').classList.add('visible');
+        document.getElementById('searchContainer').classList.add('visible');
+        scrollToStats();
+    }
+    
+    function toggleBestPlayers() {
+        if (isBestPlayersView) {
+            showStatsGrid();
+        } else {
+            showBestPlayers();
+        }
+    }
+    
+    function downloadStats() {
+        if (!allPlayersData || allPlayersData.length === 0) {
+            alert('Por favor, analiza los datos primero.');
+            return;
+        }
+        let content = "Analizador de Estadísticas TSM\n\n";
+        statsOrder.filter(stat => !['fit', 'st', 'tk', 'ps', 'sh', 'inj', 'sus', 'team_value', 'team_salary', 'age'].includes(stat.key)).forEach(stat => {
+            let sortedPlayers = [...allPlayersData];
+            if (stat.key === 'sav' || stat.key === 'st') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'GK');
+            } else if (stat.key === 'tk') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'DF');
+            } else if (stat.key === 'ps') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'MF');
+            } else if (stat.key === 'sh') {
+                sortedPlayers = sortedPlayers.filter(p => p.position === 'FW');
+            }
+            sortedPlayers.sort((a, b) => {
+                if (stat.key === 'goals_per_minute' || stat.key === 'performance_score' || stat.key === 'goals_conceded_ratio' || stat.key === 'market_value') {
+                    return b[stat.key] - a[stat.key];
+                }
+                return b[stat.key] - a[stat.key];
+            });
+            content += `${stat.title}\n`;
+            content += "Rank\tNombre\t\tEquipo\t\tValor\n";
+            content += "----\t------\t\t------\t\t-----\n";
+            let currentRank = 1;
+            let lastValue = null;
+            sortedPlayers.slice(0, 5).forEach((p, index) => {
+                const value = p[stat.key];
+                if (index > 0 && value !== lastValue) {
+                    currentRank = index + 1;
+                }
+                lastValue = value;
+                const formattedName = formatPlayerName(p.name);
+                const displayValue = stat.key === 'goals_per_minute' ? (p[stat.key] > 0 ? (1 / p[stat.key]).toFixed(0) + ' min/gol' : '-') :
+                                     stat.key === 'goals_conceded_ratio' ? (p[stat.key] === Infinity ? 'Imbatido' : Math.ceil(p[stat.key]) + ' min/gol enc.') : 
+                                     stat.key === 'market_value' ? p[stat.key].toFixed(2) + 'M' : 
+                                     stat.key === 'age' ? p.age : p[stat.key];
+                content += `${currentRank}º\t${formattedName.padEnd(15)}\t${p.team.padEnd(15)}\t${displayValue}\n`;
+            });
+            content += "\n";
+        });
+        content += "Mejores por posición\n";
+        content += "-------------------\n";
+        content += `Mejor portero:         ${formatPlayerName(getTopPlayers('GK', 1)[0].name).padEnd(15)} (${getTopPlayers('GK', 1)[0].team})\n`;
+        content += `Mejor defensa:         ${formatPlayerName(getTopPlayers('DF', 1)[0].name).padEnd(15)} (${getTopPlayers('DF', 1)[0].team})\n`;
+        content += `Mejor centrocampista:  ${formatPlayerName(getTopPlayers('MF', 1)[0].name).padEnd(15)} (${getTopPlayers('MF', 1)[0].team})\n`;
+        content += `Mejor delantero:       ${formatPlayerName(getTopPlayers('FW', 1)[0].name).padEnd(15)} (${getTopPlayers('FW', 1)[0].team})\n\n`;
+        content += "Dream team\n";
+        content += "----------\n";
+        content += `GK: ${formatPlayerName(getTopPlayers('GK', 1)[0].name).padEnd(15)} (${getTopPlayers('GK', 1)[0].team})\n`;
+        getTopPlayers('DF', 4).forEach(df => {
+            content += `DF: ${formatPlayerName(df.name).padEnd(15)} (${df.team})\n`;
+        });
+        getTopPlayers('MF', 4).forEach(mf => {
+            content += `MF: ${formatPlayerName(mf.name).padEnd(15)} (${mf.team})\n`;
+        });
+        getTopPlayers('FW', 2).forEach(fw => {
+            content += `FW: ${formatPlayerName(fw.name).padEnd(15)} (${fw.team})\n`;
+        });
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Estadísticas_TSM.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+    
+    // Nuevas funciones para el popup de jugador
+    function showPlayerPopup(playerName) {
+        const player = allPlayersData.find(p => p.name === playerName);
+        if (!player) return;
+        
+        const popup = document.getElementById('playerPopup');
+        const content = document.getElementById('playerPopupContent');
+        
+        const flagUrl = flagUrls[player.nat.toLowerCase()] || '';
+        const flagImg = flagUrl ? `<img src="${flagUrl}" class="flag-icon" alt="${player.nat}"/>` : '';
+        
+        // Determinar el color de la barra de fit según el valor
+        let fitBarColor = 'red';
+        if (player.fit >= 90) fitBarColor = 'green';
+        else if (player.fit >= 80) fitBarColor = 'yellow';
+        else if (player.fit >= 70) fitBarColor = 'orange';
+        
+        // Estadísticas principales
+        let statsHtml = `
+            <div class="player-popup-stat">
+                <span class="player-popup-stat-name">Partidos jugados:</span>
+                <span class="player-popup-stat-value">${player.gam}</span>
+            </div>
+        `;
+        
+        if (player.position === 'GK') {
+            statsHtml += `
+                <div class="player-popup-stat">
+                    <span class="player-popup-stat-name">Goles encajados:</span>
+                    <span class="player-popup-stat-value">${player.con}</span>
+                </div>
+                <div class="player-popup-stat">
+                    <span class="player-popup-stat-name">Paradas:</span>
+                    <span class="player-popup-stat-value">${player.sav}</span>
+                </div>
+                <div class="player-popup-stat">
+                    <span class="player-popup-stat-name">MVP del partido:</span>
+                    <span class="player-popup-stat-value">${player.mom}</span>
+                </div>
+            `;
+        } else {
+            statsHtml += `
+                <div class="player-popup-stat">
+                    <span class="player-popup-stat-name">Goles:</span>
+                    <span class="player-popup-stat-value">${player.gls}</span>
+                </div>
+                <div class="player-popup-stat">
+                    <span class="player-popup-stat-name">Asistencias:</span>
+                    <span class="player-popup-stat-value">${player.ass}</span>
+                </div>
+                <div class="player-popup-stat">
+                    <span class="player-popup-stat-name">MVP del partido:</span>
+                    <span class="player-popup-stat-value">${player.mom}</span>
+                </div>
+            `;
+        }
+        
+        // Otras estadísticas
+        let allStatsHtml = '';
+        
+        const getStatTitle = (key) => statsOrder.find(s => s.key === key)?.title || key;
+        const formatValue = (key, value) => {
+            if (key === 'goals_per_minute') {
+                return value > 0 ? (1 / value).toFixed(0) + ' min/gol' : '-';
+            } else if (key === 'goals_conceded_ratio') {
+                return value === Infinity ? 'Imbatido' : Math.ceil(value) + ' min/gol enc.';
+            }
+            return value;
+        };
+        
+        if (player.position === 'GK') {
+            const gkOtherStats = ['min', 'goals_conceded_ratio', 'kps', 'ass', 'gls', 'sub'];
+            gkOtherStats.forEach(key => {
+                const title = key === 'goals_conceded_ratio' ? 'Ratio goles encajados' : getStatTitle(key);
+                const value = formatValue(key, player[key]);
+                allStatsHtml += `
+                    <div class="player-popup-stat">
+                        <span class="player-popup-stat-name">${title}:</span>
+                        <span class="player-popup-stat-value">${value}</span>
+                    </div>
+                `;
+            });
+        } else {
+            const otherStats = ['min', 'ktk', 'kps', 'sht', 'goal_contributions', 'goals_per_minute', 'sub'];
+            otherStats.forEach(key => {
+                const title = getStatTitle(key);
+                const value = formatValue(key, player[key]);
+                allStatsHtml += `
+                    <div class="player-popup-stat">
+                        <span class="player-popup-stat-name">${title}:</span>
+                        <span class="player-popup-stat-value">${value}</span>
+                    </div>
+                `;
+            });
+        }
+        
+        const maxAttr = Math.max(player.st, player.tk, player.ps, player.sh);
+        let starsCount = 0;
+        if (maxAttr >= 22) starsCount = 5;
+        else if (maxAttr >= 20) starsCount = 4;
+        else if (maxAttr >= 19) starsCount = 3;
+        else if (maxAttr >= 17) starsCount = 2;
+        else if (maxAttr >= 15) starsCount = 1;
+        let starsHtml = '';
+        for (let i = 0; i < starsCount; i++) {
+            starsHtml += '<i class="fas fa-star"></i>';
+        }
+        
+        const playerValue = player.market_value.toFixed(2).replace('.', ',') + 'M';
+        const playerSalary = player.salary.toFixed(2).replace('.', ',') + 'M';
+        const injText = player.inj > 0 ? ` <i class="fas fa-hospital" title="Lesionado por ${player.inj} ${player.inj === 1 ? 'partido' : 'partidos'}"></i>` : '';
+        const susText = player.sus > 0 ? ` <i class="fas fa-gavel" title="Sancionado por ${player.sus} ${player.sus === 1 ? 'partido' : 'partidos'}"></i>` : '';
+        const playerKey = player.name.replace(/ /g, '_');
+        const profileImage = faceMap[playerKey] || 'https://2img.net/i.imgur.com/7Y9zAkb.png';
+        
+        content.innerHTML = `
+            <div class="popup-tab active" id="mainTab">
+                <div class="player-popup-header">
+                    <div>
+                        <div class="player-popup-name">${flagImg} ${player.name} <span class="stars">${starsHtml}</span>${injText}${susText}</div>
+                        <div style="display: flex; align-items: center; gap: 1rem;"><img src="${player.badge}" alt="${player.team} badge" style="width: 48px; height: 48px;" /> <a href="javascript:void(0)" onclick="showTeamPopup('${player.team.replace(/'/g, "\\'")}')" class="player-name-link">${player.team}</a></div>
+                    </div>
+                    <img src="${profileImage}" style="width: 128px; height: 128px; margin-left: auto;" alt="Foto de perfil del jugador"/>
+                </div>
+                
+                <div class="player-popup-info">
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Edad</span>
+                        <span class="player-popup-info-value">${player.age}</span>
+                    </div>
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Posición</span>
+                        <span class="player-popup-info-value">${player.position}</span>
+                    </div>
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Puntos de rendimiento</span>
+                        <span class="player-popup-info-value">${player.performance_score}</span>
+                    </div>
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Forma física</span>
+                        <span class="player-popup-info-value">${player.fit}%</span>
+                        <div class="fit-bar-container">
+                            <div class="fit-bar ${fitBarColor}" style="width: ${player.fit}%"></div>
+                        </div>
+                    </div>
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Valor estimado</span>
+                        <span class="player-popup-info-value">${playerValue}</span>
+                    </div>
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Salario</span>
+                        <span class="player-popup-info-value">${playerSalary}</span>
+                    </div>
+                    <div class="player-popup-info-item">
+                        <span class="player-popup-info-label">Atributos</span>
+                        <span class="player-popup-info-value">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; font-size: 0.9rem; margin-top: 0.5rem;">
+                                <div><i class="fas fa-circle" style="color: #4caf50;"></i> GK: ${player.st}<br><span style="margin-left: 1.2rem; font-size: 0.8rem; opacity: 0.7;">${player.kab}</span></div>
+                                <div><i class="fas fa-circle" style="color: #2196f3;"></i> DF: ${player.tk}<br><span style="margin-left: 1.2rem; font-size: 0.8rem; opacity: 0.7;">${player.tab}</span></div>
+                                <div><i class="fas fa-circle" style="color: #ffeb3b;"></i> MF: ${player.ps}<br><span style="margin-left: 1.2rem; font-size: 0.8rem; opacity: 0.7;">${player.pab}</span></div>
+                                <div><i class="fas fa-circle" style="color: #f44336;"></i> FW: ${player.sh}<br><span style="margin-left: 1.2rem; font-size: 0.8rem; opacity: 0.7;">${player.sab}</span></div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: 1.5rem;">Estadísticas principales</h4>
+                <div class="player-popup-stats">
+                    ${statsHtml}
+                </div>
+                
+                <div class="player-popup-actions">
+                    <a href="javascript:void(0)" class="popup-tab-button" onclick="switchTab('moreTab')">Ver más</a>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="player-popup-action-btn" title="Descargar estadísticas" onclick="downloadPlayerStats('${player.name.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="player-popup-action-btn" title="Copiar estadísticas" onclick="copyPlayerStats('${player.name.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-tab" id="moreTab">
+                <h4>Otras estadísticas</h4>
+                <div class="player-popup-stats">
+                    ${allStatsHtml}
+                </div>
+                <div class="player-popup-actions">
+                    <a href="javascript:void(0)" class="popup-tab-button" onclick="switchTab('mainTab')">Volver</a>
+                </div>
+            </div>
+        `;
+        
+        popup.classList.add('visible');
+        document.addEventListener('click', handleClickOutsidePlayerPopup);
+        document.addEventListener('keydown', handlePlayerPopupEscape);
+    }
+    
+    function switchTab(tabId) {
+        const tabs = document.querySelectorAll('.popup-tab');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
+    }
+    
+    function closePlayerPopup() {
+        const popup = document.getElementById('playerPopup');
+        popup.classList.remove('visible');
+        document.removeEventListener('click', handleClickOutsidePlayerPopup);
+        document.removeEventListener('keydown', handlePlayerPopupEscape);
+    }
+    
+    function handleClickOutsidePlayerPopup(event) {
+        const popupContent = document.querySelector('#playerPopup .popup-content');
+        if (!popupContent.contains(event.target) && !event.target.classList.contains('player-name-link')) {
+            closePlayerPopup();
+        }
+    }
+    
+    function handlePlayerPopupEscape(event) {
+        if (event.key === 'Escape') {
+            closePlayerPopup();
+        }
+    }
+    
+    function downloadPlayerStats(playerName) {
+        const player = allPlayersData.find(p => p.name === playerName);
+        if (!player) return;
+        
+        let content = `${player.name}\n`;
+        content += `====================\n\n`;
+        content += `Equipo: ${player.team}\n`;
+        content += `Edad: ${player.age}\n`;
+        content += `Nacionalidad: ${player.nat}\n`;
+        content += `Posición: ${player.position}\n`;
+        content += `Forma física: ${player.fit}%\n`;
+        content += `Valor estimado: ${player.market_value.toFixed(2).replace('.', ',')}M\n`;
+        content += `Salario: ${player.salary.toFixed(2).replace('.', ',')}M\n`;
+        // Excluir los atributos específicos
+        content += `\n`;
+        
+        content += `Estadísticas:\n`;
+        content += `-------------\n`;
+        
+        // Filtrar las estadísticas que no deben incluirse
+        const excludedStats = ['st', 'tk', 'ps', 'sh', 'team_value', 'team_salary', 'age', 'market_value'];
+        
+        statsOrder.forEach(stat => {
+            if (excludedStats.includes(stat.key) || stat.key === 'fit') return;
+            if (player.position !== 'GK' && (stat.key === 'sav' || stat.key === 'con' || stat.key === 'goals_conceded_ratio')) return;
+            if (player.position === 'GK' && stat.key === 'goals_per_minute') return;
+            let value = player[stat.key];
+            if (stat.key === 'goals_per_minute') {
+                value = value > 0 ? (1 / value).toFixed(0) + ' min/gol' : '-';
+            } else if (stat.key === 'goals_conceded_ratio') {
+                value = value === Infinity ? 'Imbatido' : Math.ceil(value) + ' min/gol enc.';
+            }
+            content += `${stat.title}: ${value}\n`;
+        });
+        
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Estadísticas_${player.name.replace(/\s+/g, '_')}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+    
+    function copyPlayerStats(playerName) {
+        const player = allPlayersData.find(p => p.name === playerName);
+        if (!player) return;
+        
+        let content = `${player.name}\n`;
+        content += `====================\n\n`;
+        content += `Equipo: ${player.team}\n`;
+        content += `Edad: ${player.age}\n`;
+        content += `Nacionalidad: ${player.nat}\n`;
+        content += `Posición: ${player.position}\n`;
+        content += `Forma física: ${player.fit}%\n`;
+        content += `Valor estimado: ${player.market_value.toFixed(2).replace('.', ',')}M\n`;
+        content += `Salario: ${player.salary.toFixed(2).replace('.', ',')}M\n`;
+        // Excluir los atributos específicos
+        content += `\n`;
+        
+        content += `Estadísticas:\n`;
+        content += `-------------\n`;
+        
+        // Filtrar las estadísticas que no deben incluirse
+        const excludedStats = ['st', 'tk', 'ps', 'sh', 'team_value', 'team_salary', 'age', 'market_value'];
+        
+        statsOrder.forEach(stat => {
+            if (excludedStats.includes(stat.key) || stat.key === 'fit') return;
+            if (player.position !== 'GK' && (stat.key === 'sav' || stat.key === 'con' || stat.key === 'goals_conceded_ratio')) return;
+            if (player.position === 'GK' && stat.key === 'goals_per_minute') return;
+            let value = player[stat.key];
+            if (stat.key === 'goals_per_minute') {
+                value = value > 0 ? (1 / value).toFixed(0) + ' min/gol' : '-';
+            } else if (stat.key === 'goals_conceded_ratio') {
+                value = value === Infinity ? 'Imbatido' : Math.ceil(value) + ' min/gol enc.';
+            }
+            content += `${stat.title}: ${value}\n`;
+        });
+        
+        navigator.clipboard.writeText(content)
+            .then(() => {
+                alert('Estadísticas copiadas al portapapeles');
+            })
+            .catch(err => {
+                console.error('Error al copiar al portapapeles: ', err);
+                alert('No se pudieron copiar las estadísticas');
+            });
+    }
+    
+    function showTeamPopup(teamName) {
+        const teamPlayers = allPlayersData.filter(p => p.team === teamName);
+        if (teamPlayers.length === 0) return;
+        
+        const positionsOrder = ['GK', 'DF', 'MF', 'FW'];
+        teamPlayers.sort((a, b) => {
+            return positionsOrder.indexOf(a.position) - positionsOrder.indexOf(b.position);
+        });
+        
+        const totalValue = teamPlayers.reduce((sum, p) => sum + p.market_value, 0).toFixed(2).replace('.', ',');
+        const ages = teamPlayers.map(p => p.age);
+        const averageAge = (ages.reduce((sum, age) => sum + age, 0) / ages.length).toFixed(2).replace('.', ',');
+        const positionCounts = {
+            GK: teamPlayers.filter(p => p.position === 'GK').length,
+            DF: teamPlayers.filter(p => p.position === 'DF').length,
+            MF: teamPlayers.filter(p => p.position === 'MF').length,
+            FW: teamPlayers.filter(p => p.position === 'FW').length
+        };
+        const badgeUrl = badgeMap[teamName] || '';
+        const stadiumUrl = stadiaMap[teamName] || '';
+        
+        let contentHtml = `
+            <h3 style="display: flex; align-items: center; gap: 1rem;"><img src="${badgeUrl}" alt="${teamName} escudo" style="width: 48px; height: 48px;" /> Plantilla de ${teamName} (${teamPlayers.length} jugadores)</h3>
+            <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                <img src="${stadiumUrl}" alt="${teamName} estadio" style="width: 300px; height: 125px;"/>
+                <div style="font-size: 0.9rem;">
+                    <p><strong>Valor total de la plantilla:</strong> ${totalValue}M</p>
+                    <p><strong>Edad media:</strong> ${averageAge} años</p>
+                    <p><strong>Porteros:</strong> ${positionCounts.GK}	<strong>Defensas:</strong> ${positionCounts.DF}</p>
+                    <p><strong>Centrocampistas:</strong> ${positionCounts.MF}	<strong>Delanteros:</strong> ${positionCounts.FW}</p>
+                </div>
+            </div>
+            <div class="player-popup-stats">
+        `;
+        
+        teamPlayers.forEach(player => {
+            const flagUrl = flagUrls[player.nat.toLowerCase()] || '';
+            const flagImg = flagUrl ? `<img src="${flagUrl}" class="flag-icon" alt="${player.nat}"/>` : '';
+            const formattedName = formatPlayerName(player.name);
+            contentHtml += `
+                <div class="player-stat">
+                    <span>${player.position}:</span>
+                    <span>${flagImg} <a href="javascript:void(0)" onclick="showPlayerPopup('${player.name.replace(/'/g, "\\'")}')" class="player-name-link">${formattedName}</a> (${player.age} años)</span>
+                </div>
+            `;
+        });
+        
+        contentHtml += `</div>`;
+        
+        const popup = document.getElementById('playerPopup');
+        const popupContent = document.getElementById('playerPopupContent');
+        popupContent.innerHTML = contentHtml;
+        popup.classList.add('visible');
+    }
+    
+    function calculatePlayerValue(player) {
+        var attrs = [player.st, player.tk, player.ps, player.sh];
+        var maxAttr = Math.max(...attrs);
+        var positionIndex = attrs.indexOf(maxAttr);
+        var primaryExp = [player.kab, player.tab, player.pab, player.sab][positionIndex];
+        var secondaryAttrs = attrs.filter((_, index) => index !== positionIndex);
+        var secondaryExps = [player.kab, player.tab, player.pab, player.sab].filter((_, index) => index !== positionIndex);
+        var base = 0;
+        var ageBonusAmount = 0;
+        var secAttr4_8Bonus = 0;
+        var secAttrGt8Bonus = 0;
+        var expGt500Bonus = 0;
+        var expGt800Bonus = 0;
+        var secExpBonus = 0;
+        var ageGt30Penalty = 0;
+        var ageGt35Penalty = 0;
+        if (maxAttr <= 15) {
+            return 0;
+        } else if (maxAttr === 16) {
+            base = 0;
+            ageBonusAmount = 0.5;
+            secAttr4_8Bonus = 0.5;
+            secAttrGt8Bonus = 1;
+            expGt500Bonus = 0.5;
+            expGt800Bonus = 1;
+            secExpBonus = 0.5;
+            ageGt30Penalty = 0.5;
+            ageGt35Penalty = 1;
+        } else if (maxAttr === 17) {
+            base = 1.5;
+            ageBonusAmount = 0.5;
+            secAttr4_8Bonus = 0.5;
+            secAttrGt8Bonus = 1;
+            expGt500Bonus = 1;
+            expGt800Bonus = 1.5;
+            secExpBonus = 0.5;
+            ageGt30Penalty = 0.5;
+            ageGt35Penalty = 1;
+        } else if (maxAttr === 18) {
+            base = 5;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 0.5;
+            secAttrGt8Bonus = 1.5;
+            expGt500Bonus = 2;
+            expGt800Bonus = 3.5;
+            secExpBonus = 0.5;
+            ageGt30Penalty = 1;
+            ageGt35Penalty = 3;
+        } else if (maxAttr === 19) {
+            base = 8;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 1.5;
+            secAttrGt8Bonus = 3.5;
+            expGt500Bonus = 4;
+            expGt800Bonus = 6.5;
+            secExpBonus = 1;
+            ageGt30Penalty = 2;
+            ageGt35Penalty = 4;
+        } else if (maxAttr === 20) {
+            base = 15;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 2.5;
+            secAttrGt8Bonus = 4.5;
+            expGt500Bonus = 5;
+            expGt800Bonus = 7.5;
+            secExpBonus = 1.5;
+            ageGt30Penalty = 3;
+            ageGt35Penalty = 6;
+        } else if (maxAttr === 21) {
+            base = 22;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 3.5;
+            secAttrGt8Bonus = 5.5;
+            expGt500Bonus = 5.5;
+            expGt800Bonus = 8;
+            secExpBonus = 1.5;
+            ageGt30Penalty = 4;
+            ageGt35Penalty = 8;
+        } else if (maxAttr === 22) {
+            base = 30;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 3.5;
+            secAttrGt8Bonus = 6;
+            expGt500Bonus = 6;
+            expGt800Bonus = 8.5;
+            secExpBonus = 1.5;
+            ageGt30Penalty = 5;
+            ageGt35Penalty = 10;
+        } else if (maxAttr === 23) {
+            base = 40;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 3.5;
+            secAttrGt8Bonus = 6;
+            expGt500Bonus = 6;
+            expGt800Bonus = 8.5;
+            secExpBonus = 1.5;
+            ageGt30Penalty = 8;
+            ageGt35Penalty = 12;
+        } else {
+            base = 50;
+            ageBonusAmount = 2;
+            secAttr4_8Bonus = 3.5;
+            secAttrGt8Bonus = 6;
+            expGt500Bonus = 6;
+            expGt800Bonus = 8.5;
+            secExpBonus = 1.5;
+            ageGt30Penalty = 10;
+            ageGt35Penalty = 15;
+        }
+        var ageBonus = player.age < 25 ? ageBonusAmount : 0;
+        var secSum = secondaryAttrs.reduce((a, b) => a + b, 0);
+        var secAttrBonus = secSum > 8 ? secAttrGt8Bonus : (secSum >= 4 ? secAttr4_8Bonus : 0);
+        var expBonus = primaryExp > 800 ? expGt800Bonus : (primaryExp > 500 ? expGt500Bonus : 0);
+        var secExpTotalBonus = secondaryExps.filter(exp => exp > 800).length * secExpBonus;
+        var agePenalty = player.age > 35 ? -ageGt35Penalty : (player.age > 30 ? -ageGt30Penalty : 0);
+        var totalValue = base + ageBonus + secAttrBonus + expBonus + secExpTotalBonus + agePenalty;
+        
+        // Bonus por atributos mayores a 24
+        if (maxAttr > 24) {
+            totalValue += (maxAttr - 24) * 10;
+        }
+        
+        return Math.max(totalValue, 0);
+    }
+    
+    function calculateSalary(maxAttribute) {
+        const salaryTable = {15:0.5,16:1,17:2,18:3,19:4,20:5,21:6,22:7,23:8,24:9};
+        if (maxAttribute >= 25) {
+            return 9 + (maxAttribute - 24); // +1M por cada punto por encima de 24
+        }
+        return salaryTable[maxAttribute] || 0;
+    }
+    
+    function showCardPopup(cardContent) {
+        const popup = document.getElementById('cardPopup');
+        const content = document.getElementById('cardPopupContent');
+        content.innerHTML = cardContent;
+        popup.classList.add('visible');
+        document.addEventListener('click', handleClickOutsideCardPopup);
+        document.addEventListener('keydown', handleCardPopupEscape);
+        document.getElementById('closeCardPopup').addEventListener('click', closeCardPopup);
+    }
+    
+    function closeCardPopup() {
+        const popup = document.getElementById('cardPopup');
+        popup.classList.remove('visible');
+        document.removeEventListener('click', handleClickOutsideCardPopup);
+        document.removeEventListener('keydown', handleCardPopupEscape);
+    }
+    
+    function handleClickOutsideCardPopup(event) {
+        const popupContent = document.querySelector('#cardPopup .popup-content');
+        if (!popupContent.contains(event.target)) {
+            closeCardPopup();
+        }
+    }
+    
+    function handleCardPopupEscape(event) {
+        if (event.key === 'Escape') {
+            closeCardPopup();
+        }
+    }
+    
+    function showInfoPopup(key) {
+        const popup = document.getElementById('playerPopup');
+        const content = document.getElementById('playerPopupContent');
+        let infoHtml = '';
+        if (key === 'performance_score') {
+            infoHtml = `
+                <h3>Puntos de rendimiento</h3>
+                <p>El sistema de puntos de rendimiento se calcula de la siguiente manera según la posición:</p>
+                <ul>
+                    <li><strong>GK:</strong> 10 * mom + 2 * sav + 2 * kps</li>
+                    <li><strong>DF:</strong> 10 * mom + 5 * ktk + 1 * kps + 3 * ass + 5 * gls</li>
+                    <li><strong>MF:</strong> 10 * mom + 3 * kps + 2 * ktk + 5 * ass + 5 * gls</li>
+                    <li><strong>FW:</strong> 10 * mom + 7 * gls + 3 * ass + 2 * sht</li>
+                </ul>
+            `;
+        } else if (key === 'goal_contributions') {
+            infoHtml = `
+                <h3>Participaciones de gol</h3>
+                <p>Suma de goles y asistencias realizadas por el jugador.</p>
+            `;
+        } else if (key === 'goals_conceded_ratio') {
+            infoHtml = `
+                <h3>Ratio goles encajados</h3>
+                <p>Minutos jugados divididos por goles encajados (mínimo 450 minutos jugados).</p>
+            `;
+        }
+        content.innerHTML = infoHtml;
+        popup.classList.add('visible');
+    }
+    
+    updateTemplateCount();</script>
