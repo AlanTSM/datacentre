@@ -530,7 +530,7 @@
             document.getElementById('loading').style.display = 'block';
             document.getElementById('inputSection').style.display = 'none';
             
-            const proxyUrl = 'https://corsproxy.io/?';
+            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
             let allContent = '';
 
             const promesas = Object.entries(plantillasDropbox).map(async ([nombre, url]) => {
