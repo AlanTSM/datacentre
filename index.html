@@ -1,4 +1,4 @@
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Analizador de estadísticas</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" /><style>:root{--primary-color:#1a237e;--secondary-color:#283593;--background-color:#f5f5f5;--card-background:#ffffff;--text-color:#333333;--alternate-row:#f8f9fa;--clear-button:#dc3545;--analyze-button:#28a745;--download-button:#007bff;--compare-button:#ffc107;--dark-background:#1a1a1a;--dark-card:#2c2c2c;--dark-text:#e0e0e0;--dark-alternate:#353535;--dark-primary:#3f51b5;--dark-secondary:#5c6bc0;--dark-compare:#ffa000;--accent-color:#FF5722;--gradient-start:#1a237e;--gradient-end:#0d47a1;--header-shadow:rgba(0, 0, 0, 0.2);--border-light:rgba(255, 255, 255, 0.2)}[data-theme=dark]{--background-color:var(--dark-background);--card-background:var(--dark-card);--text-color:var(--dark-text);--alternate-row:var(--dark-alternate);--primary-color:var(--dark-primary);--secondary-color:var(--dark-secondary);--compare-button:var(--dark-compare);--gradient-start:#283593;--gradient-end:#1a237e;--header-shadow:rgba(0, 0, 0, 0.5);--download-button:#1e90ff}[data-theme=dark] .compare-table .highlight{color:#000}*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;scroll-behavior:smooth;transition:all .3s ease}body{background-color:var(--background-color);color:var(--text-color);padding:2rem}.container{max-width:1400px;margin:0 auto}.header{background:linear-gradient(135deg,var(--gradient-start),var(--gradient-end));padding:0;border-radius:12px;margin-bottom:2rem;box-shadow:0 6px 20px var(--header-shadow);overflow:hidden;position:relative}.header-content{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;position:relative;z-index:2}.header-left{display:flex;align-items:center}.header-logo{width:48px;height:48px;background-color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:1rem;box-shadow:0 4px 8px rgba(0,0,0,.15)}.header-logo i{color:var(--primary-color);font-size:1.5rem}.header-title{display:flex;flex-direction:column}.header h1{color:#fff;font-size:1.8rem;font-weight:600;margin:0;letter-spacing:.5px;text-shadow:1px 1px 2px rgba(0,0,0,.3);cursor:pointer}.header-subtitle{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:400;margin-top:.3rem}.header-right{display:flex;align-items:center}.header-button{background:rgba(255,255,255,.15);border:1px solid var(--border-light);padding:.6rem 1.2rem;color:#fff;border-radius:30px;font-size:.9rem;display:flex;align-items:center;gap:.5rem;cursor:pointer;transition:all .3s ease;text-decoration:none;backdrop-filter:blur(5px)}.header-button:hover{background:rgba(255,255,255,.25);transform:translateY(-2px)}.header-decoration{position:absolute;height:300px;width:300px;border-radius:50%;background:rgba(255,255,255,.08);top:-200px;right:-100px;z-index:1}.header-decoration:before{content:'';position:absolute;height:200px;width:200px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-50px;left:-150px}.theme-toggle{position:fixed;top:2rem;right:2rem;background:var(--card-background);border:none;cursor:pointer;z-index:1001;font-size:1.2rem;color:var(--primary-color);transition:all .3s ease;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1)}.theme-toggle:hover{transform:rotate(180deg);box-shadow:0 4px 12px rgba(0,0,0,.15)}.input-section{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1);margin-bottom:2rem}.input-section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;position:relative}.input-section-title{color:var(--primary-color);font-size:1.2rem;font-weight:600}.toggle-input-button{background:0 0;border:none;color:var(--primary-color);font-size:1.2rem;cursor:pointer;position:absolute;right:0;top:0}.toggle-input-button.hidden{display:none}.input-content{display:block}.input-content.collapsed{display:none}.button-group{display:flex;gap:1rem;margin-bottom:1rem}textarea{width:100%;height:200px;padding:1rem;border:1px solid #ddd;border-radius:5px;margin-bottom:1rem;font-family:monospace;background-color:var(--card-background);color:var(--text-color)}button{background-color:var(--primary-color);color:#fff;border:none;padding:.8rem 1.5rem;border-radius:5px;cursor:pointer;transition:background-color .3s;display:flex;align-items:center;gap:.5rem}button:hover{background-color:var(--secondary-color)}button.clear{background-color:var(--clear-button)}button.clear:hover{background-color:#c82333}button.analyze{background-color:var(--analyze-button)}button.analyze:hover{background-color:#218838}button.download{background-color:var(--download-button)}button.download:hover{background-color:#0056b3}button.compare{background-color:var(--compare-button)}button.compare:hover{background-color:#e0a800}.file-input{display:none}.checkbox-group{display:flex;gap:1rem;margin-top:1rem;align-items:center}.checkbox-container{margin:1rem 0;display:none;align-items:center;gap:.5rem;background-color:var(--card-background);padding:.8rem;border-radius:5px;border:1px solid var(--primary-color);box-shadow:0 2px 4px rgba(0,0,0,.1)}.checkbox-container.visible{display:flex}.checkbox-container label{color:var(--primary-color);font-size:1rem;font-weight:500}.checkbox-container input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid var(--primary-color);border-radius:50%;cursor:pointer;position:relative}.checkbox-container input[type=checkbox]:checked{background-color:var(--primary-color)}.checkbox-container input[type=checkbox]:checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px}.search-container{display:none;align-items:center;gap:.5rem;position:relative}.search-container.visible{display:flex}.search-container input{padding:.8rem;border:2px solid var(--primary-color);border-radius:5px;font-size:.9rem;background-color:var(--card-background);color:var(--text-color);width:200px}.suggestions{position:absolute;top:100%;left:0;right:0;background-color:var(--card-background);border:1px solid #ddd;border-radius:5px;max-height:400px;overflow-y:auto;z-index:1000;display:none}.suggestions.visible{display:block}.suggestion-item{padding:.8rem;cursor:pointer;font-size:.9rem;color:var(--text-color)}.suggestion-item.selected,.suggestion-item:hover{background-color:var(--alternate-row)}.analyze-buttons{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem}.stat-card{background-color:var(--card-background);padding:1.5rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1)}.stat-card h3{color:var(--primary-color);margin-bottom:1rem;border-bottom:2px solid var(--primary-color);padding-bottom:.5rem;display:flex;align-items:center;gap:.5rem}.info-icon{font-size:.9rem;cursor:help}.player-stat{display:grid;grid-template-columns:30px 1fr 60px;padding:.3rem 0;border-bottom:1px solid #eee;font-size:.8rem}.player-stat:nth-child(even){background-color:var(--alternate-row)}.player-rank{font-weight:700;text-align:center;color:var(--text-color)}.player-stat-value{font-weight:700;text-align:right;color:var(--text-color)}.flag-icon{width:20px;height:15px;vertical-align:middle;margin-right:5px}.legend{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1)}.legend h3{color:var(--primary-color);margin-bottom:1rem}.legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}.legend-item{margin-bottom:.5rem;color:var(--text-color)}.legend-item strong{color:var(--primary-color)}.show-less,.show-more{color:var(--primary-color);background:0 0;border:none;padding:.5rem;margin-top:.5rem;cursor:pointer;width:100%;text-align:center;font-size:.9rem}.show-less:hover,.show-more:hover{text-decoration:underline}.button-container{display:flex;justify-content:center;gap:1rem;margin-top:1rem}.back-to-top{position:fixed;bottom:2rem;right:2rem;background-color:var(--primary-color);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .3s;z-index:1000}.back-to-top.visible{opacity:1}.hidden{display:none}.template-count{margin-bottom:1rem;color:var(--primary-color)}.popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}.popup-overlay.visible{display:flex}.popup-content{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,.2);max-width:600px;width:90%;position:relative;max-height:95vh;overflow-y:auto}.popup-close{position:absolute;top:1rem;right:1rem;background:0 0;border:none;color:var(--primary-color);font-size:1.2rem;cursor:pointer}.popup-close:hover{color:var(--secondary-color)}.compare-container{display:flex;flex-direction:row;flex-wrap:wrap;gap:1rem;margin-top:1rem}.compare-search{position:relative;flex:1;min-width:200px}.compare-search input{width:100%;padding:.8rem 1rem;border:1px solid var(--primary-color);border-radius:25px;background-color:var(--card-background);color:var(--text-color);box-shadow:0 2px 5px rgba(0,0,0,.1);transition:all .3s ease}.compare-search input:focus{outline:0;box-shadow:0 2px 5px var(--primary-color);border-color:var(--secondary-color)}.compare-table{width:100%;border-collapse:collapse;margin-top:1rem}.compare-table td,.compare-table th{padding:.5rem;text-align:left;border-bottom:1px solid #eee}.compare-table th{color:var(--primary-color);font-weight:600}.compare-table td{font-size:.9rem}.compare-table td:nth-child(2),.compare-table td:nth-child(3){text-align:center}.compare-table tr:nth-child(even){background-color:var(--alternate-row)}.compare-table .stat-name{font-weight:700}.compare-table .highlight{background-color:#ff9}.highlight-checkbox{margin:1rem 0;display:flex;align-items:center;gap:.5rem}.highlight-checkbox label{color:var(--primary-color);font-size:1rem;font-weight:500}.highlight-checkbox input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid var(--primary-color);border-radius:4px;cursor:pointer;position:relative}.highlight-checkbox input[type=checkbox]:checked{background-color:var(--primary-color)}.highlight-checkbox input[type=checkbox]:checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px}.dream-team-container{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}.dream-team-list{flex:1;min-width:300px}.dream-team-visual{flex:1;min-width:300px;display:flex;flex-direction:column;align-items:center}.field-container{width:100%;max-width:400px;height:500px;background:linear-gradient(135deg,#2e7d32 0,#1b5e20 100%);border:2px solid #1b5e20;border-radius:8px;position:relative;overflow:hidden;margin-bottom:1rem}.field-lines{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none}.field-line{position:absolute;background-color:rgba(255,255,255,.5)}.player-circle{position:absolute;width:40px;height:40px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transform:translate(-50%,-50%);z-index:10}.player-circle.gk{background:linear-gradient(145deg,#4caf50,#2e7d32)}.player-circle.df{background:linear-gradient(145deg,#2196f3,#1976d2)}.player-circle.mf{background:linear-gradient(145deg,#ffeb3b,#fbc02d)}.player-circle.fw{background:linear-gradient(145deg,#f44336,#d32f2f)}.player-name{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--text-color);white-space:nowrap;text-shadow:0 0 3px #fff;width:max-content}.formation-display{text-align:center;font-weight:700;color:var(--primary-color);margin-top:.5rem}.player-popup-content{display:flex;flex-direction:column;gap:1rem}.player-popup-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.player-popup-name{font-size:1.5rem;font-weight:700;color:var(--primary-color);margin-bottom:0.5rem}.player-popup-info{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}.player-popup-info-item{display:flex;flex-direction:column}.player-popup-info-label{font-size:.9rem;color:var(--primary-color);font-weight:500}.player-popup-info-value{font-size:1rem}.player-popup-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.player-popup-stat{display:flex;justify-content:space-between;padding:.5rem;border-bottom:1px solid #eee}.player-popup-stat:nth-child(even){background-color:var(--alternate-row)}.player-popup-stat-name{font-weight:500}.player-popup-stat-value{font-weight:700}.player-popup-actions{display:flex;justify-content:space-between;margin-top:1rem}.player-popup-action-btn{background-color:var(--primary-color);color:#fff;border:none;padding:.5rem 1rem;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:.5rem;font-size:.9rem}.player-popup-action-btn:hover{background-color:var(--secondary-color)}.fit-bar-container{margin-top:.5rem;height:10px;background-color:#e0e0e0;border-radius:5px;overflow:hidden}.fit-bar{height:100%;border-radius:5px;transition:width .3s ease}.fit-bar.green{background-color:#4caf50}.fit-bar.yellow{background-color:#ffeb3b}.fit-bar.orange{background-color:#ff9800}.fit-bar.red{background-color:#f44336}.player-name-link{cursor:pointer;color:inherit;text-decoration:none}.player-name-link:hover{text-decoration:underline}.stars{display:flex;gap:.2rem;font-size:.8rem;color:gold;margin:0.5rem 0}.popup-tab{display:none}.popup-tab.active{display:block}.popup-tab-button{background:0 0;border:none;color:var(--primary-color);cursor:pointer;font-size:1rem;text-decoration:none}.popup-tab-button:hover{text-decoration:none}.clear-search-button{background:0 0;border:none;color:var(--primary-color);cursor:pointer;font-size:1rem;padding:.5rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}.clear-search-button.visible{opacity:1}.clear-search-button:hover{color:var(--secondary-color)}.player-stat>span:nth-child(2){word-break:break-word;overflow-wrap:break-word;hyphens:auto}.centered-button{display:flex;justify-content:center;width:100%;margin-top:1rem}.centered-button button{text-align:center;display:flex;justify-content:center;align-items:center}.warning-message{text-align:center;color:var(--primary-color);font-style:italic;margin:1rem 0;padding:1rem;background-color:var(--alternate-row);border-radius:5px}.border.ml-2.p-2.rounded {background-color: var(--card-background); border: 1px solid var(--primary-color); border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s ease; color: var(--text-color);} .border.ml-2.p-2.rounded:focus {outline: none; border-color: var(--secondary-color); box-shadow: 0 1px 3px var(--secondary-color);}.spinner {border: 3px solid #4a5568;border-top: 3px solid #4299e1;border-radius: 50%;width: 40px;height: 40px;animation: spin 1s linear infinite;margin: 0 auto;}@keyframes spin {0% { transform: rotate(0deg); }100% { transform: rotate(360deg); }}.age-sort-button {color: var(--primary-color); background: none; border: none; cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;}.age-sort-button:hover {text-decoration: underline;}.screenshot-button {background-color: var(--primary-color); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; font-size: 1rem; margin: 2rem auto; display: block; transition: all 0.3s ease;}.screenshot-button:hover {background-color: var(--secondary-color); transform: translateY(-2px);}.glow-button {box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); animation: glow 1.5s ease-in-out infinite alternate;}@keyframes glow {from { box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); }to { box-shadow: 0 0 20px rgba(255, 215, 0, 0.9); }}.player-photo-frame {border: 3px solid var(--primary-color); border-radius: 8px; padding: 5px; background-color: var(--card-background); box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-left: 20px;}/* Custom scrollbars */::-webkit-scrollbar {width: 10px;}::-webkit-scrollbar-track {background: var(--background-color); border-radius: 5px;}::-webkit-scrollbar-thumb {background: var(--primary-color); border-radius: 5px;}::-webkit-scrollbar-thumb:hover {background: var(--secondary-color);}.popup-content::-webkit-scrollbar {width: 8px;}.popup-content::-webkit-scrollbar-track {background: var(--card-background); border-radius: 5px;}.popup-content::-webkit-scrollbar-thumb {background: var(--primary-color); border-radius: 5px;}.popup-content::-webkit-scrollbar-thumb:hover {background: var(--secondary-color);}@media (max-width:768px){.header-content{flex-direction:column;text-align:center;padding:1.2rem}.header-left{flex-direction:column;margin-bottom:1rem}.header-logo{margin-right:0;margin-bottom:.8rem}.header-right{width:100%;justify-content:center}.analyze-buttons{flex-direction:column;align-items:flex-start}.search-container{width:100%}.search-container input{width:100%}body{padding:1rem}.popup-content{width:95%}.dream-team-container{flex-direction:column}.field-container{height:400px}.player-popup-info{grid-template-columns:1fr}.player-popup-stats{grid-template-columns:1fr}.checkbox-group{flex-wrap:wrap;}.border.ml-2.p-2.rounded{width:100%;margin-left:0!important;margin-top:0.5rem;}}</style>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Analizador de estadísticas</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" /><style>:root{--primary-color:#1a237e;--secondary-color:#283593;--background-color:#f5f5f5;--card-background:#ffffff;--text-color:#333333;--alternate-row:#f8f9fa;--clear-button:#dc3545;--analyze-button:#28a745;--download-button:#007bff;--compare-button:#ffc107;--dark-background:#1a1a1a;--dark-card:#2c2c2c;--dark-text:#e0e0e0;--dark-alternate:#353535;--dark-primary:#3f51b5;--dark-secondary:#5c6bc0;--dark-compare:#ffa000;--accent-color:#FF5722;--gradient-start:#1a237e;--gradient-end:#0d47a1;--header-shadow:rgba(0, 0, 0, 0.2);--border-light:rgba(255, 255, 255, 0.2)}[data-theme=dark]{--background-color:var(--dark-background);--card-background:var(--dark-card);--text-color:var(--dark-text);--alternate-row:var(--dark-alternate);--primary-color:var(--dark-primary);--secondary-color:var(--dark-secondary);--compare-button:var(--dark-compare);--gradient-start:#283593;--gradient-end:#1a237e;--header-shadow:rgba(0, 0, 0, 0.5);--download-button:#1e90ff}[data-theme=dark] .compare-table .highlight{color:#000}*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;scroll-behavior:smooth;transition:all .3s ease}body{background-color:var(--background-color);color:var(--text-color);padding:2rem}.container{max-width:1400px;margin:0 auto}.header{background:linear-gradient(135deg,var(--gradient-start),var(--gradient-end));padding:0;border-radius:12px;margin-bottom:2rem;box-shadow:0 6px 20px var(--header-shadow);overflow:hidden;position:relative}.header-content{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;position:relative;z-index:2}.header-left{display:flex;align-items:center}.header-logo{width:48px;height:48px;background-color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:1rem;box-shadow:0 4px 8px rgba(0,0,0,.15)}.header-logo i{color:var(--primary-color);font-size:1.5rem}.header-title{display:flex;flex-direction:column}.header h1{color:#fff;font-size:1.8rem;font-weight:600;margin:0;letter-spacing:.5px;text-shadow:1px 1px 2px rgba(0,0,0,.3);cursor:pointer}.header-subtitle{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:400;margin-top:.3rem}.header-right{display:flex;align-items:center}.header-button{background:rgba(255,255,255,.15);border:1px solid var(--border-light);padding:.6rem 1.2rem;color:#fff;border-radius:30px;font-size:.9rem;display:flex;align-items:center;gap:.5rem;cursor:pointer;transition:all .3s ease;text-decoration:none;backdrop-filter:blur(5px)}.header-button:hover{background:rgba(255,255,255,.25);transform:translateY(-2px)}.header-decoration{position:absolute;height:300px;width:300px;border-radius:50%;background:rgba(255,255,255,.08);top:-200px;right:-100px;z-index:1}.header-decoration:before{content:'';position:absolute;height:200px;width:200px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-50px;left:-150px}.theme-toggle{position:fixed;top:2rem;right:2rem;background:var(--card-background);border:none;cursor:pointer;z-index:1001;font-size:1.2rem;color:var(--primary-color);transition:all .3s ease;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1)}.theme-toggle:hover{transform:rotate(180deg);box-shadow:0 4px 12px rgba(0,0,0,.15)}.input-section{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1);margin-bottom:2rem}.input-section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;position:relative}.input-section-title{color:var(--primary-color);font-size:1.2rem;font-weight:600}.toggle-input-button{background:0 0;border:none;color:var(--primary-color);font-size:1.2rem;cursor:pointer;position:absolute;right:0;top:0}.toggle-input-button.hidden{display:none}.input-content{display:block}.input-content.collapsed{display:none}.button-group{display:flex;gap:1rem;margin-bottom:1rem}textarea{width:100%;height:200px;padding:1rem;border:1px solid #ddd;border-radius:5px;margin-bottom:1rem;font-family:monospace;background-color:var(--card-background);color:var(--text-color)}button{background-color:var(--primary-color);color:#fff;border:none;padding:.8rem 1.5rem;border-radius:5px;cursor:pointer;transition:background-color .3s;display:flex;align-items:center;gap:.5rem}button:hover{background-color:var(--secondary-color)}button.clear{background-color:var(--clear-button)}button.clear:hover{background-color:#c82333}button.analyze{background-color:var(--analyze-button)}button.analyze:hover{background-color:#218838}button.download{background-color:var(--download-button)}button.download:hover{background-color:#0056b3}button.compare{background-color:var(--compare-button)}button.compare:hover{background-color:#e0a800}.file-input{display:none}.checkbox-group{display:flex;gap:1rem;margin-top:1rem;align-items:center}.checkbox-container{margin:1rem 0;display:none;align-items:center;gap:.5rem;background-color:var(--card-background);padding:.8rem;border-radius:5px;border:1px solid var(--primary-color);box-shadow:0 2px 4px rgba(0,0,0,.1)}.checkbox-container.visible{display:flex}.checkbox-container label{color:var(--primary-color);font-size:1rem;font-weight:500}.checkbox-container input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid var(--primary-color);border-radius:50%;cursor:pointer;position:relative}.checkbox-container input[type=checkbox]:checked{background-color:var(--primary-color)}.checkbox-container input[type=checkbox]:checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px}.search-container{display:none;align-items:center;gap:.5rem;position:relative}.search-container.visible{display:flex}.search-container input{padding:.8rem;border:2px solid var(--primary-color);border-radius:5px;font-size:.9rem;background-color:var(--card-background);color:var(--text-color);width:200px}.suggestions{position:absolute;top:100%;left:0;right:0;background-color:var(--card-background);border:1px solid #ddd;border-radius:5px;max-height:400px;overflow-y:auto;z-index:1000;display:none}.suggestions.visible{display:block}.suggestion-item{padding:.8rem;cursor:pointer;font-size:.9rem;color:var(--text-color)}.suggestion-item.selected,.suggestion-item:hover{background-color:var(--alternate-row)}.analyze-buttons{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.season-selector{display:inline-flex;align-items:center;gap:0.5rem;background-color:var(--card-background);border:1px solid var(--primary-color);border-radius:5px;padding:0.3rem 1rem;color:var(--text-color)}.season-selector select{background:transparent;border:none;color:var(--text-color);font-size:0.95rem;padding:0.3rem 0;cursor:pointer;outline:none}.season-selector select option{background-color:var(--card-background);color:var(--text-color)}.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem}.stat-card{background-color:var(--card-background);padding:1.5rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1)}.stat-card h3{color:var(--primary-color);margin-bottom:1rem;border-bottom:2px solid var(--primary-color);padding-bottom:.5rem;display:flex;align-items:center;gap:.5rem}.info-icon{font-size:.9rem;cursor:help}.player-stat{display:grid;grid-template-columns:30px 1fr 60px;padding:.3rem 0;border-bottom:1px solid #eee;font-size:.8rem}.player-stat:nth-child(even){background-color:var(--alternate-row)}.player-rank{font-weight:700;text-align:center;color:var(--text-color)}.player-stat-value{font-weight:700;text-align:right;color:var(--text-color)}.flag-icon{width:20px;height:15px;vertical-align:middle;margin-right:5px}.legend{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 2px 4px rgba(0,0,0,.1)}.legend h3{color:var(--primary-color);margin-bottom:1rem}.legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}.legend-item{margin-bottom:.5rem;color:var(--text-color)}.legend-item strong{color:var(--primary-color)}.show-less,.show-more{color:var(--primary-color);background:0 0;border:none;padding:.5rem;margin-top:.5rem;cursor:pointer;width:100%;text-align:center;font-size:.9rem}.show-less:hover,.show-more:hover{text-decoration:underline}.button-container{display:flex;justify-content:center;gap:1rem;margin-top:1rem}.back-to-top{position:fixed;bottom:2rem;right:2rem;background-color:var(--primary-color);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .3s;z-index:1000}.back-to-top.visible{opacity:1}.back-to-bottom{position:fixed;bottom:6rem;right:2rem;background-color:var(--primary-color);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .3s;z-index:1000}.back-to-bottom.visible{opacity:1}.hidden{display:none}.template-count{margin-bottom:1rem;color:var(--primary-color)}.popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}.popup-overlay.visible{display:flex}.popup-content{background-color:var(--card-background);padding:2rem;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,.2);max-width:600px;width:90%;position:relative;max-height:95vh;overflow-y:auto}.popup-close{position:absolute;top:1rem;right:1rem;background:0 0;border:none;color:var(--primary-color);font-size:1.2rem;cursor:pointer}.popup-close:hover{color:var(--secondary-color)}.compare-container{display:flex;flex-direction:row;flex-wrap:wrap;gap:1rem;margin-top:1rem}.compare-search{position:relative;flex:1;min-width:200px}.compare-search input{width:100%;padding:.8rem 1rem;border:1px solid var(--primary-color);border-radius:25px;background-color:var(--card-background);color:var(--text-color);box-shadow:0 2px 5px rgba(0,0,0,.1);transition:all .3s ease}.compare-search input:focus{outline:0;box-shadow:0 2px 5px var(--primary-color);border-color:var(--secondary-color)}.compare-table{width:100%;border-collapse:collapse;margin-top:1rem}.compare-table td,.compare-table th{padding:.5rem;text-align:left;border-bottom:1px solid #eee}.compare-table th{color:var(--primary-color);font-weight:600}.compare-table td{font-size:.9rem}.compare-table td:nth-child(2),.compare-table td:nth-child(3){text-align:center}.compare-table tr:nth-child(even){background-color:var(--alternate-row)}.compare-table .stat-name{font-weight:700}.compare-table .highlight{background-color:#ff9}.highlight-checkbox{margin:1rem 0;display:flex;align-items:center;gap:.5rem}.highlight-checkbox label{color:var(--primary-color);font-size:1rem;font-weight:500}.highlight-checkbox input[type=checkbox]{appearance:none;width:20px;height:20px;border:2px solid var(--primary-color);border-radius:4px;cursor:pointer;position:relative}.highlight-checkbox input[type=checkbox]:checked{background-color:var(--primary-color)}.highlight-checkbox input[type=checkbox]:checked::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:#fff;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px}.dream-team-container{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}.dream-team-list{flex:1;min-width:300px}.dream-team-visual{flex:1;min-width:300px;display:flex;flex-direction:column;align-items:center}.field-container{width:100%;max-width:400px;height:500px;background:linear-gradient(135deg,#1b4d1b 0,#0a3a0a 100%);border:2px solid #1b5e20;border-radius:8px;position:relative;overflow:hidden;margin-bottom:1rem}.field-lines{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none}.field-line{position:absolute;background-color:rgba(255,255,255,.5)}.player-circle{position:absolute;width:40px;height:40px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transform:translate(-50%,-50%);z-index:10}.player-circle.gk{background:linear-gradient(145deg,#4caf50,#2e7d32)}.player-circle.df{background:linear-gradient(145deg,#2196f3,#1976d2)}.player-circle.mf{background:linear-gradient(145deg,#ffeb3b,#fbc02d)}.player-circle.fw{background:linear-gradient(145deg,#f44336,#d32f2f)}.player-name{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--text-color);white-space:nowrap;text-shadow:0 0 3px #fff;width:max-content}.formation-display{text-align:center;font-weight:700;color:var(--primary-color);margin-top:.5rem}.player-popup-content{display:flex;flex-direction:column;gap:1rem}.player-popup-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}.player-popup-name{font-size:1.5rem;font-weight:700;color:var(--primary-color);margin-bottom:0.5rem}.player-popup-info{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}.player-popup-info-item{display:flex;flex-direction:column}.player-popup-info-label{font-size:.9rem;color:var(--primary-color);font-weight:500}.player-popup-info-value{font-size:1rem}.player-popup-stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}.player-popup-stat{display:flex;justify-content:space-between;padding:.5rem;border-bottom:1px solid #eee}.player-popup-stat:nth-child(even){background-color:var(--alternate-row)}.player-popup-stat-name{font-weight:500}.player-popup-stat-value{font-weight:700}.player-popup-actions{display:flex;justify-content:space-between;margin-top:1rem}.player-popup-action-btn{background-color:var(--primary-color);color:#fff;border:none;padding:.5rem 1rem;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:.5rem;font-size:.9rem}.player-popup-action-btn:hover{background-color:var(--secondary-color)}.fit-bar-container{margin-top:.5rem;height:10px;background-color:#e0e0e0;border-radius:5px;overflow:hidden}.fit-bar{height:100%;border-radius:5px;transition:width .3s ease}.fit-bar.green{background-color:#4caf50}.fit-bar.yellow{background-color:#ffeb3b}.fit-bar.orange{background-color:#ff9800}.fit-bar.red{background-color:#f44336}.player-name-link{cursor:pointer;color:inherit;text-decoration:none}.player-name-link:hover{text-decoration:underline}.stars{display:flex;gap:.2rem;font-size:.8rem;color:gold;margin:0.5rem 0}.popup-tab{display:none}.popup-tab.active{display:block}.popup-tab-button{background:0 0;border:none;color:var(--primary-color);cursor:pointer;font-size:1rem;text-decoration:none}.popup-tab-button:hover{text-decoration:none}.clear-search-button{background:0 0;border:none;color:var(--primary-color);cursor:pointer;font-size:1rem;padding:.5rem;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}.clear-search-button.visible{opacity:1}.clear-search-button:hover{color:var(--secondary-color)}.player-stat>span:nth-child(2){word-break:break-word;overflow-wrap:break-word;hyphens:auto}.centered-button{display:flex;justify-content:center;width:100%;margin-top:1rem}.centered-button button{text-align:center;display:flex;justify-content:center;align-items:center}.warning-message{text-align:center;color:var(--primary-color);font-style:italic;margin:1rem 0;padding:1rem;background-color:var(--alternate-row);border-radius:5px}.border.ml-2.p-2.rounded {background-color: var(--card-background); border: 1px solid var(--primary-color); border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s ease; color: var(--text-color);} .border.ml-2.p-2.rounded:focus {outline: none; border-color: var(--secondary-color); box-shadow: 0 1px 3px var(--secondary-color);}.spinner {border: 3px solid #4a5568;border-top: 3px solid #4299e1;border-radius: 50%;width: 40px;height: 40px;animation: spin 1s linear infinite;margin: 0 auto;}@keyframes spin {0% { transform: rotate(0deg); }100% { transform: rotate(360deg); }}.age-sort-button {color: var(--primary-color); background: none; border: none; cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem;}.age-sort-button:hover {text-decoration: underline;}.screenshot-button {background-color: var(--primary-color); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer; font-size: 1rem; margin: 2rem auto; display: block; transition: all 0.3s ease;}.screenshot-button:hover {background-color: var(--secondary-color); transform: translateY(-2px);}.glow-button {box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); animation: glow 1.5s ease-in-out infinite alternate;}@keyframes glow {from { box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); }to { box-shadow: 0 0 20px rgba(255, 215, 0, 0.9); }}.player-photo-frame {border: 3px solid var(--primary-color); border-radius: 8px; padding: 5px; background-color: var(--card-background); box-shadow: 0 4px 8px rgba(0,0,0,0.2); margin-left: 20px;}/* Custom scrollbars */::-webkit-scrollbar {width: 10px;}::-webkit-scrollbar-track {background: var(--background-color); border-radius: 5px;}::-webkit-scrollbar-thumb {background: var(--primary-color); border-radius: 5px;}::-webkit-scrollbar-thumb:hover {background: var(--secondary-color);}.popup-content::-webkit-scrollbar {width: 8px;}.popup-content::-webkit-scrollbar-track {background: var(--card-background); border-radius: 5px;}.popup-content::-webkit-scrollbar-thumb {background: var(--primary-color); border-radius: 5px;}.popup-content::-webkit-scrollbar-thumb:hover {background: var(--secondary-color);}@media (max-width:768px){.header-content{flex-direction:column;text-align:center;padding:1.2rem}.header-left{flex-direction:column;margin-bottom:1rem}.header-logo{margin-right:0;margin-bottom:.8rem}.header-right{width:100%;justify-content:center}.analyze-buttons{flex-direction:column;align-items:flex-start}.search-container{width:100%}.search-container input{width:100%}body{padding:1rem}.popup-content{width:95%}.dream-team-container{flex-direction:column}.field-container{height:400px}.player-popup-info{grid-template-columns:1fr}.player-popup-stats{grid-template-columns:1fr}.checkbox-group{flex-wrap:wrap;}.border.ml-2.p-2.rounded{width:100%;margin-left:0!important;margin-top:0.5rem;}}</style>
 <div class="container">
            
     <div class="header">
@@ -111,9 +111,14 @@
                     <em class="fas fa-balance-scale"> </em> Comparar jugadores    
             </button>
                      
-            <button class="download" id="downloadButton">
-                    <em class="fas fa-download"> </em> Descargar estadísticas    
-            </button>
+            <!-- Selector de temporada -->
+            <div class="season-selector">
+                <i class="fas fa-calendar-alt"></i>
+                <select id="seasonSelect">
+                    <option value="actual" selected>Temporada actual</option>
+                    <option value="36">Temporada 36</option>
+                </select>
+            </div>
                    
         </div>
                
@@ -145,9 +150,14 @@
                
     </div>
            
-    <button class="screenshot-button" id="screenshotButton" title="La captura de pantalla se descargará automáticamente">
-        <em class="fas fa-camera"></em> Tomar captura de pantalla
-    </button>
+    <div style="display: flex; gap: 1rem; justify-content: center; margin: 2rem auto;">
+        <button class="download" id="downloadButton">
+            <i class="fas fa-download"></i> Descargar estadísticas
+        </button>
+        <button class="screenshot-button" id="screenshotButton" title="La captura de pantalla se descargará automáticamente">
+            <i class="fas fa-camera"></i> Tomar captura de pantalla
+        </button>
+    </div>
            
     <div class="legend">
                
@@ -314,6 +324,9 @@
                
     </div>
 </div>
+<button class="back-to-bottom" id="backToBottom">
+        <em class="fas fa-arrow-down"> </em>
+</button>
 <button class="back-to-top" id="backToTop">
         <em class="fas fa-arrow-up"> </em>
 </button><script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -374,6 +387,18 @@
         'MF': 'Centrocampista',
         'FW': 'Delantero'
     };
+
+    // Detectar tema del sistema
+    function detectSystemTheme() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+        }
+    }
     
     // Nueva función para aplicar filtros
     function applyFilters() {
@@ -431,6 +456,8 @@
     
     // Initialize event listeners
     document.addEventListener('DOMContentLoaded', async function() {
+        detectSystemTheme(); // Detectar tema al cargar
+        
         await loadFlags();
         await loadCountryNames();
         await loadFaces();
@@ -446,11 +473,13 @@
         document.getElementById('analyzeButton').addEventListener('click', analyzeData);
         document.getElementById('bestPlayersButton').addEventListener('click', toggleBestPlayers);
         document.getElementById('compareButton').addEventListener('click', openComparePopup);
+        // El botón de descarga ahora está en otra posición, pero mantenemos el mismo id
         document.getElementById('downloadButton').addEventListener('click', downloadStats);
         document.getElementById('closeComparePopup').addEventListener('click', closeComparePopup);
         document.getElementById('showAllStats').addEventListener('change', toggleAllStats);
         document.getElementById('youngPlayers').addEventListener('change', toggleYoungPlayers);
         document.getElementById('backToTop').addEventListener('click', scrollToTop);
+        document.getElementById('backToBottom').addEventListener('click', scrollToBottom);
         document.getElementById('playerSearch').addEventListener('input', updateSuggestions);
         document.getElementById('playerSearch').addEventListener('keydown', handleKeyNavigation);
         document.getElementById('comparePlayer1').addEventListener('input', () => updateCompareSuggestions('comparePlayer1', 'compareSuggestions1'));
@@ -493,6 +522,15 @@
             applyFilters();
         });
         
+        // Selector de temporada
+        document.getElementById('seasonSelect').addEventListener('change', function(e) {
+            if (e.target.value === '36') {
+                loadSeason36();
+            } else {
+                loadDefaultData();
+            }
+        });
+        
         // Screenshot button
         document.getElementById('screenshotButton').addEventListener('click', takeScreenshot);
         
@@ -502,10 +540,13 @@
         // Scroll event for back to top button
         window.addEventListener('scroll', function() {
             const backToTop = document.getElementById('backToTop');
+            const backToBottom = document.getElementById('backToBottom');
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                 backToTop.classList.add('visible');
+                backToBottom.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
+                backToBottom.classList.remove('visible');
             }
         });
 
@@ -519,6 +560,10 @@
             if (e.target.classList.contains('info-icon')) {
                 const statKey = e.target.closest('.stat-card').querySelector('div[id^="players-"]').id.split('-')[1];
                 showInfoPopup(statKey);
+            }
+            // Info icon para "Rendimiento por equipo"
+            if (e.target.classList.contains('team-info-icon')) {
+                showTeamInfoPopup();
             }
         });
     });
@@ -559,6 +604,75 @@
         } catch (err) {
             console.error('Error loading default data:', err);
             // En caso de error, ocultar spinner y mostrar contenido
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('inputSection').style.display = 'block';
+        }
+    }
+
+    async function loadSeason36() {
+        try {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('inputSection').style.display = 'none';
+            
+            // Fetch directo sin proxy
+            const response = await fetch('https://www.tusoccermanager.com/h85-playerdb-html');
+            const html = await response.text();
+            
+            // Extraer el contenido dentro de <pre>...</pre>
+            const preMatch = html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i);
+            const dbContent = preMatch ? preMatch[1] : html;
+            
+            // Parsear el contenido (similar a parseDBSquads pero adaptado)
+            const lines = dbContent.split('\n').map(l => l.trim()).filter(l => l);
+            let teamNames = [];
+            let squads = [];
+            let currentSquad = [];
+            let readingTeams = true;
+            const headerRegex = /^Name\s+Age\s+Nat\s+St\s+Tk\s+Ps\s+Sh\s+Ag\s+KAb\s+TAb\s+PAb\s+SAb\s+Gam\s+Sub\s+Min\s+Mom\s+Sav\s+Con\s+Ktk\s+Kps\s+Sht\s+Gls\s+Ass\s+DP\s+Inj\s+Sus\s+Fit\s*$/;
+            const separatorRegex = /^[-]+$/;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (readingTeams && !headerRegex.test(line) && !separatorRegex.test(line) && !/^Name/.test(line)) {
+                    // Es un nombre de equipo
+                    teamNames.push(line);
+                } else {
+                    readingTeams = false;
+                    // Es una plantilla
+                    if (headerRegex.test(line) || separatorRegex.test(line) || /^[A-Za-z_]/.test(line)) {
+                        currentSquad.push(line);
+                    }
+                }
+            }
+            if (currentSquad.length) squads.push(currentSquad.join('\n'));
+            
+            // Asignar equipos a cada plantilla (en orden)
+            const squadTeams = teamNames.slice(0, squads.length);
+            
+            // Procesar bloques
+            const allPlayers = processTemplateBlocks(squads, squadTeams);
+            allPlayersData = allPlayers;
+            
+            uniqueTeams = squadTeams;
+            populateTeamFilter();
+            uniqueCountries = getUniqueCountries(allPlayersData);
+            populateCountryFilter();
+            updatePlayerCount();
+            renderStatsGrid();
+            isBestPlayersView = false;
+            document.getElementById('bestPlayersButton').innerHTML = '<i class="fas fa-star"></i> Mejores por posición';
+            document.getElementById('showAllStatsContainer').classList.add('visible');
+            document.getElementById('youngPlayersContainer').classList.add('visible');
+            document.getElementById('searchContainer').classList.add('visible');
+            if (!isInputCollapsed) toggleInputSection();
+            document.getElementById('toggleInputButton').classList.remove('hidden');
+            scrollToStats();
+            
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('inputSection').style.display = 'block';
+        } catch (err) {
+            console.error('Error loading season 36:', err);
+            alert('Error al cargar la temporada 36. Se mantendrán los datos actuales.');
             document.getElementById('loading').style.display = 'none';
             document.getElementById('inputSection').style.display = 'block';
         }
@@ -677,6 +791,20 @@
         const statsGrid = document.getElementById('statsGrid');
         statsGrid.scrollIntoView({ behavior: 'smooth' });
     }
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+    function scrollToBottom() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
     
     function toggleInputSection() {
         const inputContent = document.getElementById('inputContent');
@@ -729,13 +857,6 @@
         closeComparePopup();
         closePlayerPopup();
         document.getElementById('toggleInputButton').classList.add('hidden');
-    }
-    
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
     }
     
     function updateTemplateCount() {
@@ -986,6 +1107,7 @@
             let player2Class = '';
             if (highlight && player1Raw !== null && player2Raw !== null) {
                 const isLowerBetter = stat.key === 'dp' || stat.key === 'age';
+                // Para market_value, queremos que el mayor se resalte
                 const isHigherBetter = stat.key === 'market_value' || stat.key === 'performance_score' || stat.key === 'gls' || stat.key === 'ass' || stat.key === 'mom' || stat.key === 'sav' || stat.key === 'gam' || stat.key === 'sht' || stat.key === 'kps' || stat.key === 'ktk' || stat.key === 'fit' || stat.key === 'goal_contributions' || stat.key === 'goals_per_minute' || stat.key === 'goals_conceded_ratio' || stat.key === 'min';
                 if (stat.key in titleMap) {
                     if (player1Raw < player2Raw) {
@@ -1441,9 +1563,10 @@
         const card = document.createElement('div');
         card.className = 'stat-card';
         const icon = key === 'performance_score' ? 'fa-trophy' : 'fa-euro-sign';
+        const infoIcon = (key === 'performance_score') ? '<i class="fas fa-info-circle info-icon team-info-icon" style="margin-left: auto; cursor: pointer;" title="Explicación"></i>' : '';
         
         let content = `
-            <h3><i class="fas ${icon}"></i> ${title} ${suffix}</h3>
+            <h3><i class="fas ${icon}"></i> ${title} ${suffix} ${infoIcon}</h3>
             <div id="teams-${key}">
                 ${renderTeams(sortedTeams.slice(0, limit), key)}
             </div>
@@ -2643,8 +2766,8 @@
     
     function calculateSalary(maxAttribute) {
         const salaryTable = {15:0.5,16:1,17:2,18:3,19:4,20:5,21:6,22:7,23:8,24:9};
-        if (maxAttribute >= 25) {
-            return 9 + (maxAttribute - 24); // +1M por cada punto por encima de 24
+        if (maxAttribute >= 24) {
+            return 9; // Para 24 y superiores, el salario es fijo en 9M
         }
         return salaryTable[maxAttribute] || 0;
     }
@@ -2685,31 +2808,49 @@
         let infoHtml = '';
         if (key === 'performance_score') {
             infoHtml = `
-                <h3>Puntos de rendimiento</h3>
-                <p>El sistema de puntos de rendimiento se calcula de la siguiente manera según la posición:</p>
-                <ul>
-                    <li><strong>GK:</strong> 10 * mom + 1.5 * sav + 2 * kps</li>
-                    <li><strong>DF:</strong> 10 * mom + 5 * ktk + 1 * kps + 3 * ass + 5 * gls</li>
-                    <li><strong>MF:</strong> 10 * mom + 3 * kps + 2 * ktk + 5 * ass + 5 * gls</li>
-                    <li><strong>FW:</strong> 10 * mom + 7 * gls + 3 * ass + 2 * sht</li>
+                <h3 style="color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;">Puntos de rendimiento</h3>
+                <p style="margin: 1rem 0;">El sistema de puntos de rendimiento se calcula de la siguiente manera según la posición:</p>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.8rem; padding: 0.5rem; background-color: var(--alternate-row); border-radius: 5px;"><strong>Portero (GK):</strong> 10 × MVP + 1.5 × Paradas + 2 × Pases</li>
+                    <li style="margin-bottom: 0.8rem; padding: 0.5rem; background-color: var(--alternate-row); border-radius: 5px;"><strong>Defensa (DF):</strong> 10 × MVP + 5 × Entradas + 1 × Pases + 3 × Asistencias + 5 × Goles</li>
+                    <li style="margin-bottom: 0.8rem; padding: 0.5rem; background-color: var(--alternate-row); border-radius: 5px;"><strong>Centrocampista (MF):</strong> 10 × MVP + 3 × Pases + 2 × Entradas + 5 × Asistencias + 5 × Goles</li>
+                    <li style="margin-bottom: 0.8rem; padding: 0.5rem; background-color: var(--alternate-row); border-radius: 5px;"><strong>Delantero (FW):</strong> 10 × MVP + 7 × Goles + 3 × Asistencias + 2 × Tiros</li>
                 </ul>
+                <p><small>Nota: El resultado final se redondea hacia arriba.</small></p>
             `;
         } else if (key === 'goal_contributions') {
             infoHtml = `
-                <h3>Participaciones de gol</h3>
+                <h3 style="color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;">Participaciones de gol</h3>
                 <p>Suma de goles y asistencias realizadas por el jugador.</p>
+                <p style="margin-top: 1rem;"><strong>Fórmula:</strong> Goles + Asistencias</p>
             `;
         } else if (key === 'goals_conceded_ratio') {
             infoHtml = `
-                <h3>Ratio goles encajados</h3>
+                <h3 style="color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;">Ratio goles encajados</h3>
                 <p>Minutos jugados divididos por goles encajados (mínimo 450 minutos jugados).</p>
+                <p style="margin-top: 1rem;"><strong>Fórmula:</strong> Minutos / Goles encajados</p>
+                <p>Si el portero no ha encajado goles, se muestra "Imbatido".</p>
             `;
         } else if (key === 'goals_per_minute') {
             infoHtml = `
-                <h3>Ratio minutos por gol</h3>
+                <h3 style="color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;">Ratio minutos por gol</h3>
                 <p>Esta estadística solo tiene en cuenta a los jugadores que hayan jugado un mínimo de 450 minutos.</p>
+                <p><strong>Fórmula:</strong> Minutos / Goles (se muestra la inversa: minutos necesarios por gol)</p>
             `;
         }
+        content.innerHTML = infoHtml;
+        popup.classList.add('visible');
+    }
+
+    function showTeamInfoPopup() {
+        const popup = document.getElementById('playerPopup');
+        const content = document.getElementById('playerPopupContent');
+        const infoHtml = `
+            <h3 style="color: var(--primary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem;">Rendimiento por equipo</h3>
+            <p>Esta lista ordena los equipos según la suma de los <strong>puntos de rendimiento</strong> de todos sus jugadores.</p>
+            <p style="margin-top: 1rem;">Los puntos de rendimiento individuales se calculan según la posición de cada jugador, como se explica en la ayuda de "Puntos de rendimiento".</p>
+            <p>Se suman todos los puntos de los jugadores del equipo para obtener el total.</p>
+        `;
         content.innerHTML = infoHtml;
         popup.classList.add('visible');
     }
